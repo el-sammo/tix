@@ -22,44 +22,69 @@
 								</div>
 							</div>
 							<br/>
+							<hr>
+							<br/>
 							<div class="row">
 								<div class="col-md-2">
 									<span class="text-muted">Team</span>
 								</div>
-								<div class="col-md-2 col-md-offset-1">
-									<span class="text-muted">Single Ticket Cost</span>
+								<div class="col-md-1 col-md-offset-1">
+									<p class="text-right">
+										<span class="text-muted">1 Ticket</span>
+									</p>
+								</div>
+								<div class="col-md-1 col-md-offset-1">
+									<p class="text-right">
+										<span class="text-muted">2 Tickets</span>
+									</p>
+								</div>
+								<div class="col-md-1 col-md-offset-1">
+									<p class="text-right">
+										<span class="text-muted">4 Tickets</span>
+									</p>
 								</div>
 								<div class="col-md-2 col-md-offset-1">
-									<span class="text-muted">Two Ticket Cost</span>
-								</div>
-								<div class="col-md-2 col-md-offset-1">
-									<span class="text-muted">Four Ticket Cost</span>
+									<p class="text-center">
+										<span class="text-muted">Reserve!</span>
+									</p>
 								</div>
 							</div>
+							<br/>
 							<div class="row" ng-repeat="entity in pool.entities">
-								<div class="col-md-2">
-									<span class="text-muted">{{entity.entityName}}</span>
-								</div>
-								<div class="col-md-2 col-md-offset-1">
-									<span class="text-muted">
-										<a href="/app/poolEntityReserve/{{pool.id}}-{{entity.entityId}}-1" style="text-decoration: none;">
-											{{(((pool.poolTotal * .8) / (entity.reservations + 1)) / pool.ticketCost).toFixed(2)}}
-										</a>
-									</span>
-								</div>
-								<div class="col-md-2 col-md-offset-1">
-									<span class="text-muted">
-										<a href="/app/poolEntityReserve/{{pool.id}}-{{entity.entityId}}-2" style="text-decoration: none;">
-											{{((pool.poolTotal * .8) / ((entity.entityReservations + 2) * pool.ticketCost)).toFixed(2)}}
-										</a>
-									</span>
-								</div>
-								<div class="col-md-2 col-md-offset-1">
-									<span class="text-muted">
-										<a href="/app/poolEntityReserve/{{pool.id}}-{{entity.entityId}}-4" style="text-decoration: none;">
-											{{((pool.poolTotal * .8) / ((entity.entityReservations + 4) * pool.ticketCost)).toFixed(2)}}
-										</a>
-									</span>
+								<div class="col-md-12" style="height: 24px; margin: 0px 0px 8px 0px;">
+									<div class="row" style="background-color: #{{entity.color2}}; border: 2px solid #{{entity.color3}}">
+										<div class="col-md-2" style="height: 24px;">
+											<span style="font-size: 16px; font-weight: 700; color: #{{entity.color1}};">{{entity.entityName}}</span>
+										</div>
+										<div class="col-md-1 col-md-offset-1" style="height: 24px;">
+											<p class="text-right">
+												<span style="font-size: 16px; font-weight: 700; text-decoration: none; color: #{{entity.color1}}; cursor: pointer;" ng-init="singleCost = entity.singleCost" ng-click="reserve(championship.id, pool.id, entity.entityId, 1, singleCost)">
+													{{entity.singleCost}}
+												</span>
+											</p>
+										</div>
+										<div class="col-md-1 col-md-offset-1" style="height: 24px;">
+											<p class="text-right">
+												<span style="font-size: 16px; font-weight: 700; text-decoration: none; color: #{{entity.color1}}; cursor: pointer;" ng-init="doubleCost = entity.doubleCost" ng-click="reserve(championship.id, pool.id, entity.entityId,2, doubleCost)">
+													{{entity.doubleCost}}
+												</span>
+											</p>
+										</div>
+										<div class="col-md-1 col-md-offset-1" style="height: 24px;">
+											<p class="text-right">
+												<span style="font-size: 16px; font-weight: 700; text-decoration: none; color: #{{entity.color1}}; cursor: pointer;" ng-init="quadCost = entity.quadCost" ng-click="reserve(championship.id, pool.id, entity.entityId, 4, quadCost)">
+													{{entity.quadCost}}
+												</span>
+											</p>
+										</div>
+										<div class="col-md-2 col-md-offset-1" style="height: 24px;">
+											<p class="text-center">
+												<span style="font-size: 16px; font-weight: 700; text-decoration: none; color: #{{entity.color1}};" ng-click="reserve(championship.id, pool.id, entity.entityId, 1)">
+													Reserve Now!
+												</span>
+											</p>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

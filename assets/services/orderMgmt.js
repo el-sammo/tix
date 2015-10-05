@@ -29,58 +29,19 @@
 					}
 				});
 			},
-			checkoutProhibited: function(order) {
+			reserve: function(championshipId, poolId, entityId, quantity, total) {
 				$modal.open({
-					templateUrl: '/templates/checkoutProhibited.html',
-					backdrop: true,
-					controller: 'CheckoutController',
-					resolve: {
-						args: function() {
-							return {
-								order: order
-							}
-						}
-					}
-				});
-			},
-			delFeeExp: function(things, delFee) {
-				$modal.open({
-					templateUrl: '/templates/deliveryFeeExplained.html',
-					backdrop: true,
-					controller: 'ExplainerController',
-					resolve: {
-						args: function() {
-							return {
-								things: things,
-								delFee: delFee
-							}
-						}
-					}
-				});
-			},
-			add: function(item) {
-				$modal.open({
-					templateUrl: '/templates/addItemOptions.html',
+					templateUrl: '/templates/addReservation.html',
 					backdrop: true,
 					controller: 'OrderMgmtController',
 					resolve: {
 						args: function() {
 							return {
-								item: item
-							}
-						}
-					}
-				});
-			},
-			addBev: function(bev) {
-				$modal.open({
-					templateUrl: '/templates/addBevOptions.html',
-					backdrop: true,
-					controller: 'OrderMgmtController',
-					resolve: {
-						args: function() {
-							return {
-								bev: bev
+								championshipId: championshipId,
+								poolId: poolId,
+								entityId: entityId,
+								quantity: quantity,
+								total: total
 							}
 						}
 					}
@@ -95,20 +56,6 @@
 						args: function() {
 							return {
 								thing: thing
-							}
-						}
-					}
-				});
-			},
-			removeBev: function(bevThing) {
-				$modal.open({
-					templateUrl: '/templates/removeBevOptions.html',
-					backdrop: true,
-					controller: 'OrderMgmtController',
-					resolve: {
-						args: function() {
-							return {
-								bevThing: bevThing
 							}
 						}
 					}

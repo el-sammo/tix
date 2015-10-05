@@ -11,69 +11,93 @@
 	controller.$inject = [
 		'$scope', '$http', '$routeParams', '$rootScope', 
 		'signupPrompter', 'customerMgmt', 'championshipMgmt',
-		'poolMgmt'
+		'poolMgmt', 'entityMgmt', 'orderMgmt'
 	];
 
 	function controller(
 		$scope, $http, $routeParams, $rootScope, 
 		signupPrompter, customerMgmt, championshipMgmt,
-		poolMgmt
+		poolMgmt, entityMgmt, orderMgmt
 	) {
 
-		var getSessionPromise = customerMgmt.getSession();
-		getSessionPromise.then(function(sessionData) {
+		$scope.reserve = orderMgmt.reserve;
 
-			var getChampionshipPromise = championshipMgmt.getChampionship($routeParams.id);
-			getChampionshipPromise.then(function(championshipData) {
+		var juice = .8;
+		var ticketCost = 1500;
+		var ticketFactor = .96;
 
-				var getPoolsPromise = poolMgmt.getPools(championshipData.id);
-				getPoolsPromise.then(function(poolData) {
+		var getEntitiesPromise = entityMgmt.getEntities();
+		getEntitiesPromise.then(function(entityData) {
+			var eds = entityData;
 
-					poolData.forEach(function(pool) {
-						pool.poolTotal = 0;
-						pool.ticketCost = 1500;
-						if(pool.entities) {
-							pool.entities.forEach(function(entity) {
-								entity.entityTotal = 0;
-								entity.entityReservations = 0;
-								if(entity.customers) {
-									entity.customers.forEach(function(customer) {
-										if(customer.reservations) {
-											customer.reservations.forEach(function(reservation) {
-												if(reservation.total) {
-													entity.entityTotal += reservation.total;
-													entity.entityReservations += reservation.quantity;
-													pool.poolTotal += reservation.total;
-												}
-											});
+			var getSessionPromise = customerMgmt.getSession();
+			getSessionPromise.then(function(sessionData) {
+	
+				var getChampionshipPromise = championshipMgmt.getChampionship($routeParams.id);
+				getChampionshipPromise.then(function(championshipData) {
+	
+					var getPoolsPromise = poolMgmt.getPools(championshipData.id);
+					getPoolsPromise.then(function(poolData) {
+	
+						poolData.forEach(function(pool) {
+							pool.total = 0;
+							if(pool.entities) {
+								pool.entities.forEach(function(entity) {
+									entity.total = 0;
+									entity.reservations = 0;
+									eds.forEach(function(ed) {
+										if(ed.name === entity.entityName) {
+											entity.color1 = ed.color1;
+											entity.color2 = ed.color2;
+											if(ed.color3) {
+												entity.color3 = ed.color3;
+											} else {
+												entity.color3 = '000000';
+											}
 										}
 									});
-								}
-							});
-						}
+									if(entity.customers) {
+										entity.customers.forEach(function(customer) {
+											if(customer.reservations) {
+												customer.reservations.forEach(function(reservation) {
+													if(reservation.total) {
+														entity.total += reservation.total;
+														entity.reservations += reservation.quantity;
+														pool.total += reservation.total;
+														entity.quadRemain = (pool.total * juice) - ((entity.reservations + 4) * ticketCost);
+														if(entity.quadRemain > 0) {
+															entity.quadCost = (entity.total / entity.reservations).toFixed(2);
+															entity.doubleCost = (entity.quadCost / 2 * ticketFactor).toFixed(2);
+															entity.singleCost = (entity.doubleCost / 2 * ticketFactor * ticketFactor).toFixed(2);
+														} else {
+															entity.quadCost = (entity.total / entity.reservations * 5).toFixed(2);
+															entity.doubleCost = (entity.quadCost / 2 * ticketFactor).toFixed(2);
+															entity.singleCost = (entity.doubleCost / 2 * ticketFactor * ticketFactor).toFixed(2);
+														}
+													}
+												});
+											}
+										});
+									}
+								});
+							}
+						});
+	
+						championshipData.pools = poolData;
+						$scope.championship = championshipData;
+
+						console.log('$scope.championship:');
+						console.log($scope.championship);
 					});
-
-					championshipData.pools = poolData;
-
-					$scope.championship = championshipData;
+	
 				});
-
+				
+			}).catch(function(err) {
+				console.log('customerMgmt.getSession() failed');
+				console.log(err);
 			});
-			
-		}).catch(function(err) {
-			console.log('customerMgmt.getSession() failed');
-			console.log(err);
+
 		});
-
-		function getEntityName(entityId) {
-			var url = '/entities/' + entityId;
-			$http.get(url).then(function(res) {
-				console.log('res.data.name:');
-				console.log(res.data.name);
-				return res.data.name;
-			});
-		}
-
 	}
 
 }());

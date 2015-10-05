@@ -37,6 +37,26 @@
 				return getChampionshipPromise;
 			},
 
+			updateChampionship: function(championship) {
+				console.log('championshipMgmt.updateChampionship() called');
+				var url = '/championships/' + championship.id;
+				console.log('url: '+url);
+				return $http.put(url, championship).success(
+					console.log('success');
+					function(data, status, headers, config) {
+						if(status >= 400) {
+							return $q.reject(data);
+						}
+						return championship;
+					}
+				).catch(function(err) {
+					console.log('failure');
+					console.log('PUT ' + url + ': ajax failed');
+					console.error(err);
+					return $q.reject(err);
+				});
+			},
+
 			getCurrentChampionships: function() {
 				if(getChampionshipsPromise) {
 					return getChampionshipsPromise;
