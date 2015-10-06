@@ -8,13 +8,13 @@
 	controller.$inject = [
 		'$q', '$scope', '$modalInstance', '$http', '$rootScope',
 		'customerMgmt', 'clientConfig', 'args', 'entityMgmt',
-		'championshipMgmt'
+		'championshipMgmt', 'poolMgmt'
 	];
 
 	function controller(
 		$q, $scope, $modalInstance, $http, $rootScope,
 		customerMgmt, clientConfig, args, entityMgmt,
-		championshipMgmt
+		championshipMgmt, poolMgmt
 	) {
 
 		$scope.championshipId = args.championshipId;
@@ -51,7 +51,9 @@
 											if(existingCustomer) {
 												var eachCost = ($scope.total / $scope.quantity).toFixed();
 												customer.reservations.push({cost: eachCost, quantity: $scope.quantity, total: $scope.total});
-												championshipMgmt.updateChampionship(championship);
+												console.log('pool:');
+												console.log(pool);
+												poolMgmt.updatePool(pool);
 //												$rootScope.$broadcast('orderChanged');
 												$modalInstance.dismiss('done');
 											}

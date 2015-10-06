@@ -85,9 +85,6 @@
 	
 						championshipData.pools = poolData;
 						$scope.championship = championshipData;
-
-						console.log('$scope.championship:');
-						console.log($scope.championship);
 					});
 	
 				});

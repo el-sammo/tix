@@ -38,11 +38,8 @@
 			},
 
 			updateChampionship: function(championship) {
-				console.log('championshipMgmt.updateChampionship() called');
 				var url = '/championships/' + championship.id;
-				console.log('url: '+url);
 				return $http.put(url, championship).success(
-					console.log('success');
 					function(data, status, headers, config) {
 						if(status >= 400) {
 							return $q.reject(data);

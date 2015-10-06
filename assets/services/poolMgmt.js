@@ -37,6 +37,23 @@
 				return getPoolPromise;
 			},
 
+			updatePool: function(pool) {
+				var url = '/pools/' + pool.id;
+				return $http.put(url, pool).success(
+					function(data, status, headers, config) {
+						if(status >= 400) {
+							return $q.reject(data);
+						}
+						return pool;
+					}
+				).catch(function(err) {
+					console.log('failure');
+					console.log('PUT ' + url + ': ajax failed');
+					console.error(err);
+					return $q.reject(err);
+				});
+			},
+
 			getPools: function(championshipId) {
 				if(getPoolsPromise) {
 					return getPoolsPromise;
