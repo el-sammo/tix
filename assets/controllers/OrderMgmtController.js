@@ -8,22 +8,20 @@
 	controller.$inject = [
 		'$q', '$scope', '$modalInstance', '$http', '$rootScope',
 		'customerMgmt', 'clientConfig', 'args', 'entityMgmt',
-		'championshipMgmt', 'poolMgmt'
+		'reservationMgmt'
 	];
 
 	function controller(
 		$q, $scope, $modalInstance, $http, $rootScope,
 		customerMgmt, clientConfig, args, entityMgmt,
-		championshipMgmt, poolMgmt
+		reservationMgmt
 	) {
 
-		$scope.championshipId = args.championshipId;
 		$scope.poolId = args.poolId;
 		$scope.entityId = args.entityId;
-		if(args.quantity && args.quantity < 6 && args.quantity > 0) {
-			$scope.quantity = args.quantity;
-		}
+		$scope.quantity = args.quantity;
 		$scope.total = args.total;
+		$scope.entityName = args.entityName;
 
 		var getEntityPromise = entityMgmt.getEntity($scope.entityId);
 		getEntityPromise.then(function(entity) {
@@ -38,32 +36,18 @@
 		$scope.addThisReservation = function(thisEntity) {
 			var getSessionPromise = customerMgmt.getSession();
 			getSessionPromise.then(function(sessionData) {
-				var getChampionshipPromise = championshipMgmt.getChampionship($scope.championshipId);
-				getChampionshipPromise.then(function(championship) {
-					championship.pools.forEach(function(pool) {
-						if(pool.id === $scope.poolId) {
-							pool.entities.forEach(function(entity) {
-								if(entity.entityId === $scope.entityId) {
-									var existingCustomer = false;
-									entity.customers.forEach(function(customer) {
-										if(customer.customerId === sessionData.customerId) {
-											existingCustomer = true;
-											if(existingCustomer) {
-												var eachCost = ($scope.total / $scope.quantity).toFixed();
-												customer.reservations.push({cost: eachCost, quantity: $scope.quantity, total: $scope.total});
-												console.log('pool:');
-												console.log(pool);
-												poolMgmt.updatePool(pool);
-//												$rootScope.$broadcast('orderChanged');
-												$modalInstance.dismiss('done');
-											}
-										}
-									});
-								}
-							});
-						}
-					});
-				});
+				var eachCost = ($scope.total / $scope.quantity).toFixed();
+				var reservation = {
+					poolId: $scope.poolId, 
+					entityId: $scope.entityId, 
+					entityName: $scope.entityName, 
+					customerId: sessionData.customerId, 
+					cost: eachCost, 
+					quantity: $scope.quantity, 
+					total: $scope.total
+				};
+				reservationMgmt.createReservation(reservation);
+				$modalInstance.dismiss('done');
 			});
 		}
 	}

@@ -11,20 +11,21 @@
 	controller.$inject = [
 		'$scope', '$http', '$routeParams', '$rootScope', 
 		'signupPrompter', 'customerMgmt', 'championshipMgmt',
-		'poolMgmt', 'entityMgmt', 'orderMgmt'
+		'poolMgmt', 'reservationMgmt', 'entityMgmt', 'orderMgmt'
 	];
 
 	function controller(
 		$scope, $http, $routeParams, $rootScope, 
 		signupPrompter, customerMgmt, championshipMgmt,
-		poolMgmt, entityMgmt, orderMgmt
+		poolMgmt, reservationMgmt, entityMgmt, orderMgmt
 	) {
 
+		// listener for customer reserving
 		$scope.reserve = orderMgmt.reserve;
 
-		var juice = .8;
-		var ticketCost = 1500;
-		var ticketFactor = .96;
+		$scope.juice = .8;
+		$scope.ticketCost = 1500;
+		$scope.ticketFactor = .96;
 
 		var getEntitiesPromise = entityMgmt.getEntities();
 		getEntitiesPromise.then(function(entityData) {
@@ -39,52 +40,81 @@
 					var getPoolsPromise = poolMgmt.getPools(championshipData.id);
 					getPoolsPromise.then(function(poolData) {
 	
-						poolData.forEach(function(pool) {
-							pool.total = 0;
-							if(pool.entities) {
-								pool.entities.forEach(function(entity) {
-									entity.total = 0;
-									entity.reservations = 0;
-									eds.forEach(function(ed) {
-										if(ed.name === entity.entityName) {
-											entity.color1 = ed.color1;
-											entity.color2 = ed.color2;
-											if(ed.color3) {
-												entity.color3 = ed.color3;
+						var getReservationsPromise = reservationMgmt.getReservations();
+						getReservationsPromise.then(function(reservationData) {
+
+							reservationData.sort(function(a, b) {
+								return a.entityName.localeCompare(b.entityName);
+							});
+
+							var allPoolData = [];
+
+							poolData.forEach(function(pool) {
+
+								var thisPool = {};
+								thisPool.id = pool.id;
+								thisPool.name = pool.name;
+								thisPool.total = 0;
+								thisPool.entities = [];
+
+								var entity = {};
+								entity.reservations = 0;
+								entity.total = 0;
+								var first = true;
+								var lastProcessed = '';
+								reservationData.forEach(function(reservation) {
+									if(reservation.poolId === pool.id) {
+										if(first) {
+											entity.id = reservation.entityId;
+											entity.name = reservation.entityName;
+											entity.reservations += reservation.quantity;
+											entity.total += reservation.total;
+											thisPool.total += reservation.total;
+											first = false;
+										} else {
+											if(lastProcessed === reservation.entityName) {
+												entity.reservations += reservation.quantity;
+												entity.total += reservation.total;
+												thisPool.total += reservation.total;
 											} else {
-												entity.color3 = '000000';
-											}
-										}
-									});
-									if(entity.customers) {
-										entity.customers.forEach(function(customer) {
-											if(customer.reservations) {
-												customer.reservations.forEach(function(reservation) {
-													if(reservation.total) {
-														entity.total += reservation.total;
-														entity.reservations += reservation.quantity;
-														pool.total += reservation.total;
-														entity.quadRemain = (pool.total * juice) - ((entity.reservations + 4) * ticketCost);
-														if(entity.quadRemain > 0) {
-															entity.quadCost = (entity.total / entity.reservations).toFixed(2);
-															entity.doubleCost = (entity.quadCost / 2 * ticketFactor).toFixed(2);
-															entity.singleCost = (entity.doubleCost / 2 * ticketFactor * ticketFactor).toFixed(2);
+												eds.forEach(function(ed) {
+													if(ed.name === entity.name) {
+														entity.color1 = ed.color1;
+														entity.color2 = ed.color2;
+														if(ed.color3) {
+															entity.color3 = ed.color3;
 														} else {
-															entity.quadCost = (entity.total / entity.reservations * 5).toFixed(2);
-															entity.doubleCost = (entity.quadCost / 2 * ticketFactor).toFixed(2);
-															entity.singleCost = (entity.doubleCost / 2 * ticketFactor * ticketFactor).toFixed(2);
+															entity.color3 = '000000';
 														}
 													}
 												});
+
+												thisPool.entities.push(entity);
+												entity = {};
+												entity.reservations = 0;
+												entity.total = 0;
+												entity.id = reservation.entityId;
+												entity.name = reservation.entityName;
+												entity.reservations += reservation.quantity;
+												entity.total += reservation.total;
+												thisPool.total += reservation.total;
 											}
-										});
+										}
+										lastProcessed = reservation.entityName;
 									}
 								});
-							}
+
+								thisPool.entities.push(entity);
+
+								allPoolData.push(thisPool);
+
+								championshipData.pools = allPoolData;
+								$scope.championship = championshipData;
+
+							});
+
 						});
 	
-						championshipData.pools = poolData;
-						$scope.championship = championshipData;
 					});
 	
 				});
@@ -95,6 +125,7 @@
 			});
 
 		});
+
 	}
 
 }());
