@@ -28,7 +28,7 @@
 						if(status >= 400) {
 							return $q.reject(data);
 						}
-						return reservation;
+						return reservationData;
 					}
 				).catch(function(err) {
 					console.log('POST ' + url + ': ajax failed');

@@ -42,9 +42,9 @@
 					entityId: $scope.entityId, 
 					entityName: $scope.entityName, 
 					customerId: sessionData.customerId, 
-					cost: eachCost, 
-					quantity: $scope.quantity, 
-					total: $scope.total
+					cost: parseFloat(eachCost), 
+					quantity: parseInt($scope.quantity), 
+					total: parseFloat($scope.total)
 				};
 				reservationMgmt.createReservation(reservation);
 				$modalInstance.dismiss('done');

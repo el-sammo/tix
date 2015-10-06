@@ -67,16 +67,28 @@
 										if(first) {
 											entity.id = reservation.entityId;
 											entity.name = reservation.entityName;
-											entity.reservations += reservation.quantity;
-											entity.total += reservation.total;
-											thisPool.total += reservation.total;
+											entity.reservations += parseInt(reservation.quantity);
+											entity.total += parseFloat(reservation.total);
+											thisPool.total += parseFloat(reservation.total);
 											first = false;
+if(reservation.entityName === 'Baltimore') {
+	console.log('Baltimore (first):');
+	console.log(entity);
+}
 										} else {
 											if(lastProcessed === reservation.entityName) {
-												entity.reservations += reservation.quantity;
-												entity.total += reservation.total;
-												thisPool.total += reservation.total;
+												entity.reservations += parseInt(reservation.quantity);
+												entity.total += parseFloat(reservation.total);
+												thisPool.total += parseFloat(reservation.total);
+if(reservation.entityName === 'Baltimore') {
+	console.log('Baltimore (subsequent):');
+	console.log(entity);
+}
 											} else {
+if(entity.name === 'Baltimore') {
+	console.log('Baltimore (final):');
+	console.log(entity);
+}
 												eds.forEach(function(ed) {
 													if(ed.name === entity.name) {
 														entity.color1 = ed.color1;
@@ -95,9 +107,9 @@
 												entity.total = 0;
 												entity.id = reservation.entityId;
 												entity.name = reservation.entityName;
-												entity.reservations += reservation.quantity;
-												entity.total += reservation.total;
-												thisPool.total += reservation.total;
+												entity.reservations += parseInt(reservation.quantity);
+												entity.total += parseFloat(reservation.total);
+												thisPool.total += parseFloat(reservation.total);
 											}
 										}
 										lastProcessed = reservation.entityName;
