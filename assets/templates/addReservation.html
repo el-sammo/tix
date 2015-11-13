@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h3 class="modal-title" id="nav-away-modal-title">
-		Add a reservation for <strong>{{entity.name}}</strong>
+		Add a reservation for <strong>{{entityName}}</strong>
   </h3>
 </div>
 <div id="completedOrderError" ng-show="orderCompleted">
@@ -16,7 +16,7 @@
 	</form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary pull-left" ng-click="$close('discard')">
+  <button type="button" class="btn btn-primary pull-left" ng-click="closeReservation()">
     <i class="fa fa-reply"></i> &nbsp; Go Back
   </button>
 	<button type="button" class="btn btn-success pull-right" ng-click="addThisReservation()">

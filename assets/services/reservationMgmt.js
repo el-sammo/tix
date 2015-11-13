@@ -89,9 +89,9 @@
 			},
 
 			getReservationsByPoolId: function(poolId) {
-				if(getReservationsByPoolIdPromise) {
-					return getReservationsByPoolIdPromise;
-				}
+//				if(getReservationsByPoolIdPromise) {
+//					return getReservationsByPoolIdPromise;
+//				}
 
 				var url = '/reservations/byPoolId/' + poolId;
 				getReservationsByPoolIdPromise = $http.get(url).then(function(res) {

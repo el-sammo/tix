@@ -17,38 +17,69 @@
 		reservationMgmt
 	) {
 
-		$scope.poolId = args.poolId;
-		$scope.entityId = args.entityId;
-		$scope.quantity = args.quantity;
-		$scope.total = args.total;
-		$scope.entityName = args.entityName;
+		if(args.poolId) {
+			$scope.poolId = args.poolId;
+		}
 
-		var getEntityPromise = entityMgmt.getEntity($scope.entityId);
-		getEntityPromise.then(function(entity) {
-			var thisEntity = entity;
-			$scope.entity = thisEntity;
-		});
+		if(args.entityId) {
+			$scope.entityId = args.entityId;
+		}
+
+		if(args.quantity) {
+			$scope.quantity = args.quantity;
+		}
+
+		if(args.total) {
+			$scope.total = args.total;
+		}
+
+		if(args.entityName) {
+			$scope.entityName = args.entityName;
+		}
+
+		if($scope.lastLookupId && $scope.entityId === $scope.lastLookupId) {
+		} else {
+			var getEntityPromise = entityMgmt.getEntity($scope.entityId);
+			getEntityPromise.then(function(entity) {
+				$scope.entity = entity;
+				$scope.lastLookupId = args.entityId;
+			});
+		}
 
 		$scope.currentlyAvailableReason = 'na';
 		
 		$scope.orderCompleted = false;
 
-		$scope.addThisReservation = function(thisEntity) {
+		$scope.addThisReservation = function() {
+
+			var cost = ($scope.total / $scope.quantity).toFixed(2);
+
 			var getSessionPromise = customerMgmt.getSession();
 			getSessionPromise.then(function(sessionData) {
-				var eachCost = ($scope.total / $scope.quantity).toFixed();
 				var reservation = {
 					poolId: $scope.poolId, 
 					entityId: $scope.entityId, 
 					entityName: $scope.entityName, 
 					customerId: sessionData.customerId, 
-					cost: parseFloat(eachCost), 
+					cost: parseFloat(cost), 
 					quantity: parseInt($scope.quantity), 
 					total: parseFloat($scope.total)
 				};
-				reservationMgmt.createReservation(reservation);
-				$modalInstance.dismiss('done');
+				
+				var createReservationPromise = reservationMgmt.createReservation(reservation);
+				createReservationPromise.then(function(response) {
+					if(response.statusText === 'OK') {
+						console.log('reservation successful');
+					} else {
+						console.log('reservation NOT successful');
+					}
+					$modalInstance.dismiss('done');
+				});
 			});
+		}
+
+		$scope.closeReservation = function() {
+			$modalInstance.dismiss('done');
 		}
 	}
 

@@ -39,7 +39,7 @@ module.exports = {
 	},
 	
 	byPoolId: function(req, res) {
-		Reservations.findByPoolId(req.params.id).sort({createdAt: 'asc'}).then(function(results) {
+		Reservations.findByPoolId(req.params.id).sort({entityName: 'asc', createdAt: 'asc'}).then(function(results) {
 			res.send(JSON.stringify(results));
 		}).catch(function(err) {
       res.json({error: 'Server error'}, 500);
