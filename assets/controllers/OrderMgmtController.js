@@ -8,13 +8,13 @@
 	controller.$inject = [
 		'$q', '$scope', '$modalInstance', '$http', '$rootScope',
 		'customerMgmt', 'clientConfig', 'args', 'entityMgmt',
-		'reservationMgmt'
+		'reservationMgmt', 'signupPrompter'
 	];
 
 	function controller(
 		$q, $scope, $modalInstance, $http, $rootScope,
 		customerMgmt, clientConfig, args, entityMgmt,
-		reservationMgmt
+		reservationMgmt, signupPrompter
 	) {
 
 		if(args.poolId) {
@@ -56,25 +56,33 @@
 
 			var getSessionPromise = customerMgmt.getSession();
 			getSessionPromise.then(function(sessionData) {
-				var reservation = {
-					poolId: $scope.poolId, 
-					entityId: $scope.entityId, 
-					entityName: $scope.entityName, 
-					customerId: sessionData.customerId, 
-					cost: parseFloat(cost), 
-					quantity: parseInt($scope.quantity), 
-					total: parseFloat($scope.total)
-				};
-				
-				var createReservationPromise = reservationMgmt.createReservation(reservation);
-				createReservationPromise.then(function(response) {
-					if(response.statusText === 'OK') {
-						console.log('reservation successful');
-					} else {
-						console.log('reservation NOT successful');
-					}
+
+				if(sessionData.customerId) {
+					var reservation = {
+						poolId: $scope.poolId, 
+						entityId: $scope.entityId, 
+						entityName: $scope.entityName, 
+						customerId: sessionData.customerId, 
+						cost: parseFloat(cost), 
+						quantity: parseInt($scope.quantity), 
+						total: parseFloat($scope.total)
+					};
+					
+					var createReservationPromise = reservationMgmt.createReservation(reservation);
+					createReservationPromise.then(function(response) {
+						if(response.statusText === 'OK') {
+							$rootScope.$broadcast('newReservation');
+							console.log('reservation successful');
+						} else {
+							console.log('reservation NOT successful');
+						}
+						$modalInstance.dismiss('done');
+					});
+				} else {
 					$modalInstance.dismiss('done');
-				});
+					signupPrompter.prompt();
+				}
+
 			});
 		}
 
