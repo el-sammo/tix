@@ -27,109 +27,72 @@
 			refreshData();
 		})
 
-		$scope.juice = .8;
-		$scope.ticketCost = 1500;
-		$scope.ticketFactor = .96;
-
 		$scope.poolData = [];
 
 		function refreshData() {
 
-			var getEntitiesPromise = entityMgmt.getEntities();
-			getEntitiesPromise.then(function(entityData) {
-				var eds = entityData;
-	
-				var getSessionPromise = customerMgmt.getSession();
-				getSessionPromise.then(function(sessionData) {
-		
-					var getChampionshipPromise = championshipMgmt.getChampionship($routeParams.id);
-					getChampionshipPromise.then(function(championshipData) {
-			
-						var getPoolsPromise = poolMgmt.getPools(championshipData.id);
-						getPoolsPromise.then(function(poolData) {
-			
-							poolData.forEach(function(pool) {
-			
-								var getPoolReservations = reservationMgmt.getReservationsByPoolId(pool.id);
-								getPoolReservations.then(function(poolReservationData) {
-			
-									var thisPoolData = {};
-									thisPoolData.id = pool.id;
-									thisPoolData.name = pool.name;
-									thisPoolData.total = 0;
-									thisPoolData.entities = [];
-			
-			
-									var entity = {};
-									entity.reservations = 0;
-									entity.total = 0;
-									var first = true;
-									var lastProcessed = '';
-			
-									poolReservationData.forEach(function(reservation) {
-										if(first) {
-											entity.id = reservation.entityId;
-											entity.name = reservation.entityName;
-											entity.reservations += parseInt(reservation.quantity);
-											entity.total += parseFloat(reservation.total);
-											thisPoolData.total += parseFloat(reservation.total);
-											first = false;
-										} else {
-											if(lastProcessed === reservation.entityName) {
-												entity.reservations += parseInt(reservation.quantity);
-												entity.total += parseFloat(reservation.total);
-												thisPoolData.total += parseFloat(reservation.total);
-											} else {
-												eds.forEach(function(ed) {
-													if(ed.name === entity.name) {
-														entity.color1 = ed.color1;
-														entity.color2 = ed.color2;
-														if(ed.color3) {
-															entity.color3 = ed.color3;
-														} else {
-															entity.color3 = '000000';
-														}
-													}
-												});
+			var getSessionPromise = customerMgmt.getSession();
+			getSessionPromise.then(function(sessionData) {
 
-if(entity.name === 'Buffalo') {
-	console.log('entity:');
-	console.log(entity);
-}
-			
-												thisPoolData.entities.push(entity);
-												entity = {};
-												entity.reservations = 0;
-												entity.total = 0;
-												entity.id = reservation.entityId;
-												entity.name = reservation.entityName;
-												entity.reservations += parseInt(reservation.quantity);
-												entity.total += parseFloat(reservation.total);
-												thisPoolData.total += parseFloat(reservation.total);
-											}
-										}
-										lastProcessed = reservation.entityName;
-									});
-			
-									thisPoolData.entities.push(entity);
+				var getChampionshipPromise = championshipMgmt.getChampionship($routeParams.id);
+				getChampionshipPromise.then(function(championshipData) {
 
-console.log('thisPoolData:');
-console.log(thisPoolData);
-			
+					$scope.championshipData = championshipData;
+
+				});
+
+				var getChampionshipPromise = championshipMgmt.getChampionship($routeParams.id);
+				getChampionshipPromise.then(function(championshipData) {
+
+					$scope.championshipData = championshipData;
+
+				});
+
+				var getPoolsPromise = poolMgmt.getPools($routeParams.id);
+				getPoolsPromise.then(function(poolData) {
+
+					poolData.forEach(function(pool) {
+
+						var poolId = pool.id;
+						var thisPoolData = {};
+
+						thisPoolData.id = pool.id;
+						thisPoolData.name = pool.name;
+						thisPoolData.entities = [];
+
+						pool.eligibleEntities.forEach(function(entity) {
+
+							var getCostByPEPromise = reservationMgmt.getCostByPE(poolId +'-p&e-'+ entity.entityId +'-p&e-'+ entity.expectedOdds);
+							getCostByPEPromise.then(function(entityData) {
+
+								var getEntityColorsPromise = entityMgmt.getColorsByEntityId(entityData.entityId);
+								getEntityColorsPromise.then(function(entityColors) {
+
+									if(entityColors.color1) {
+										entityData.color1= entityColors.color1;
+									}
+
+									if(entityColors.color2) {
+										entityData.color2 = entityColors.color2;
+									}
+
+									if(entityColors.color3) {
+										entityData.color3 = entityColors.color3;
+									}
+
+									thisPoolData.entities.push(entityData);
 									$scope.poolData.push(thisPoolData);
 
-									$scope.championship = championshipData;
-			
 								});
 			
 							});
-			
+
 						});
-			
+
 					});
-	
+
 				});
-	
+
 			});
 		
 			$timeout(function() {
@@ -139,112 +102,6 @@ console.log(thisPoolData);
 		}
 
 		refreshData();
-
-
-//		var getEntitiesPromise = entityMgmt.getEntities();
-//		getEntitiesPromise.then(function(entityData) {
-//			var eds = entityData;
-//
-//			var getSessionPromise = customerMgmt.getSession();
-//			getSessionPromise.then(function(sessionData) {
-//	
-//				var getChampionshipPromise = championshipMgmt.getChampionship($routeParams.id);
-//				getChampionshipPromise.then(function(championshipData) {
-//	
-//					var getPoolsPromise = poolMgmt.getPools(championshipData.id);
-//					getPoolsPromise.then(function(poolData) {
-//	
-//						var getReservationsPromise = reservationMgmt.getReservations();
-//						getReservationsPromise.then(function(reservationData) {
-//
-//							reservationData.sort(function(a, b) {
-//								return a.entityName.localeCompare(b.entityName);
-//							});
-//
-//							var allPoolData = [];
-//
-//							poolData.forEach(function(pool) {
-//
-//								var thisPool = {};
-//								thisPool.id = pool.id;
-//								thisPool.name = pool.name;
-//								thisPool.total = 0;
-//								thisPool.entities = [];
-//
-//								var entity = {};
-//								entity.reservations = 0;
-//								entity.total = 0;
-//								var first = true;
-//								var lastProcessed = '';
-//								reservationData.forEach(function(reservation) {
-//									if(reservation.poolId === pool.id) {
-//										if(first) {
-//											entity.id = reservation.entityId;
-//											entity.name = reservation.entityName;
-//											entity.reservations += parseInt(reservation.quantity);
-//											entity.total += parseFloat(reservation.total);
-//											thisPool.total += parseFloat(reservation.total);
-//											first = false;
-//										} else {
-//											if(lastProcessed === reservation.entityName) {
-//												entity.reservations += parseInt(reservation.quantity);
-//												entity.total += parseFloat(reservation.total);
-//												thisPool.total += parseFloat(reservation.total);
-//											} else {
-//												eds.forEach(function(ed) {
-//													if(ed.name === entity.name) {
-//														entity.color1 = ed.color1;
-//														entity.color2 = ed.color2;
-//														if(ed.color3) {
-//															entity.color3 = ed.color3;
-//														} else {
-//															entity.color3 = '000000';
-//														}
-//													}
-//												});
-//
-//												if(entity.name === 'Buffalo') {
-//													console.log('entity:');
-//													console.log(entity);
-//												}
-//
-//												thisPool.entities.push(entity);
-//												entity = {};
-//												entity.reservations = 0;
-//												entity.total = 0;
-//												entity.id = reservation.entityId;
-//												entity.name = reservation.entityName;
-//												entity.reservations += parseInt(reservation.quantity);
-//												entity.total += parseFloat(reservation.total);
-//												thisPool.total += parseFloat(reservation.total);
-//											}
-//										}
-//										lastProcessed = reservation.entityName;
-//									}
-//								});
-//
-//								thisPool.entities.push(entity);
-//
-//								allPoolData.push(thisPool);
-//
-//								championshipData.pools = allPoolData;
-//
-//								$scope.championship = championshipData;
-//
-//							});
-//
-//						});
-//	
-//					});
-//	
-//				});
-//				
-//			}).catch(function(err) {
-//				console.log('customerMgmt.getSession() failed');
-//				console.log(err);
-//			});
-//
-//		});
 
 	}
 

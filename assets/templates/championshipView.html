@@ -6,7 +6,7 @@
 			</div>
 			<div class="row" id="championshipViewBody">
 				<div class="col-md-12">
-					<div class="row" ng-repeat="pool in poolData">
+					<div class="row" ng-repeat="pool in poolData track by $index">
 						<div class="col-md-12">
 							<div class="row">
 								<div class="col-md-12">
@@ -54,13 +54,12 @@
 								<div class="col-md-12" style="height: 24px; margin: 0px 0px 8px 0px;">
 									<div class="row" style="background-color: #{{entity.color2}}; border: 2px solid #{{entity.color3}}">
 										<div class="col-md-2" style="height: 24px;">
-											<span style="font-size: 16px; font-weight: 700; color: #{{entity.color1}};">{{entity.name}}</span>
+											<span style="font-size: 16px; font-weight: 700; color: #{{entity.color1}};">{{entity.entityName}}</span>
 										</div>
 										<div class="col-md-1 col-md-offset-1" style="height: 24px;">
 											<p class="text-right">
-												<span style="font-size: 16px; font-weight: 700; text-decoration: none; color: #{{entity.color1}}; cursor: pointer;" ng-init="quadRemain = (pool.total * juice) - ((entity.reservations + 4) * ticketCost)">
-													<span ng-show="quadRemain >= 0" ng-init="singleCost = (((((entity.total / entity.reservations) / 2) * ticketFactor) / 2) * ticketFactor).toFixed(2)" ng-click="reserve(pool.id, entity.id, 1, singleCost, entity.name)">{{singleCost}}</span>
-													<span ng-show="quadRemain < 0" ng-init="singleCost = ((((((entity.total / entity.reservations) * 5) / 2) * ticketFactor) / 2) * ticketFactor).toFixed(2)"  ng-click="reserve(pool.id, entity.id, 1, singleCost, entity.name)">{{singleCost}}</span>
+												<span style="font-size: 16px; font-weight: 700; text-decoration: none; color: #{{entity.color1}}; cursor: pointer;">
+													<span ng-click="reserve(pool.id, entity.id, 1, entity.nextCost, entity.name)">{{entity.nextCost}}</span>
 												</span>
 											</p>
 										</div>

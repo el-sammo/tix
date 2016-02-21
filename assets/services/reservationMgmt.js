@@ -19,6 +19,8 @@
 		var getReservationPromise;
 		var getReservationsPromise;
 		var getReservationsByPoolIdPromise;
+		var getCostByPEPromise;
+		var getPoolTotalsPromise;
 
 		var service = {
 			createReservation: function(reservationData) {
@@ -71,13 +73,9 @@
 				});
 			},
 
-			getReservations: function() {
-				if(getReservationsPromise) {
-					return getReservationsPromise;
-				}
-
-				var url = '/reservations/';
-				getReservationsPromise = $http.get(url).then(function(res) {
+			getCostByPE: function(id) {
+				var url = '/reservations/costByPoolAndEntity/' + id;
+				getCostByPEPromise = $http.get(url).then(function(res) {
 					return res.data;
 				}).catch(function(err) {
 					console.log('GET ' + url + ': ajax failed');
@@ -85,13 +83,23 @@
 					return $q.reject(err);
 				});
 
-				return getReservationsPromise;
+				return getCostByPEPromise;
+			},
+
+			getPoolTotals: function(poolId) {
+				var url = '/reservations/poolTotals/' + poolId;
+				getPoolTotalsPromise = $http.get(url).then(function(res) {
+					return res.data;
+				}).catch(function(err) {
+					console.log('GET ' + url + ': ajax failed');
+					console.error(err);
+					return $q.reject(err);
+				});
+
+				return getPoolTotalsPromise;
 			},
 
 			getReservationsByPoolId: function(poolId) {
-//				if(getReservationsByPoolIdPromise) {
-//					return getReservationsByPoolIdPromise;
-//				}
 
 				var url = '/reservations/byPoolId/' + poolId;
 				getReservationsByPoolIdPromise = $http.get(url).then(function(res) {
