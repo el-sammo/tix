@@ -15,14 +15,14 @@ module.exports = {
 	sendNotifyToOperator: function(req, res) {
 		if(env && env === 'production') {
 			var customerId = req.params.id;
-			var email = '3072778940@vtext.com, 3072514153@vtext.com, 3072594177@vtext.com, 3072583100@vtext.com';
-			sendMail(email, 'Order Placed!', 'placed', customerId);
+			var email = '3072676486@vtext.com, 3072581099@vtext.com, 3073151672@vtext.com';
+			sendMail(email, 'Reservation Placed!', 'placed', customerId);
 		}
 	},
 
 	sendFailToOperator: function(req, res) {
 		if(env && env === 'production') {
-			var email = 'sam.barrett@gmail.com, rebecca.l.barrett@gmail.com, rickrsgood@yahoo.com, sam.adamson@grub2you.com';
+			var email = 'sam.barrett@gmail.com';
 			var orderId = 'order_id_not_passed';
 			if(req.params.id) {
 				orderId = req.params.id;
@@ -53,7 +53,7 @@ module.exports = {
 	
 			promise.then(function(customer) {
 				var customer = customer[0];
-				sendMail(customer.email, 'Thanks for Joining Grub2You!', 'signup', customer);
+				sendMail(customer.email, 'Thanks for Checking Out Tickets Tycoon!', 'signup', customer);
 			});
 		}
 	},
@@ -99,7 +99,7 @@ function sendMail(email, subject, template, data) {
 	var transporter = nodemailer.createTransport(directTransport());
 
 	var mailOptions = {
-			from: 'Grub2You <info@grub2you.com>',
+			from: 'Tickets Tycoon <info@ticketstycoon.com>',
 			to: email,
 			subject: subject,
 			text: '',
@@ -147,19 +147,19 @@ function sendMail(email, subject, template, data) {
 
 	if(template === 'signup') {
 		mailOptions = {
-			from: 'Grub2You <info@grub2you.com>',
+			from: 'Tickets Tycoon <info@ticketstycoon.com>',
 			to: email,
 			subject: subject,
 			text: (
-				'Thanks for joining Grub2You, '+data.fName+'.  We\'re glad you found us!  ' +
-				'How about a little discount when you place your first order? Just enter ' +
-				'promo code \'yummy\' when you place your order at grub2you.com!'
+				'Thanks for checking out Tickets Tycoon, '+data.username+'.  We\'re glad you found us!  ' +
+				'How about a little discount when you reserve your first ticket(s)? Just enter ' +
+				'promo code \'signup-'+data.username+'\' when you make your reservation at ticketstycoon.com!'
 			),
 			html: (
-				'Thanks for joining <b>Grub2You</b>, '+data.fName+'.  We\'re glad you ' +
-				'found us!<br/>How about a little discount when you place your first ' +
-				'order? Just enter promo code <b>\'yummy\'</b> when you place your ' +
-				'order at <a href="grub2you.com">grub2you.com</a>!'
+				'Thanks for joining <b>Tickets Tycoon</b>, '+data.username+'.  We\'re glad you ' +
+				'found us!<br/>How about a little discount when you reserve your first ' +
+				'ticket(s)? Just enter promo code <b>\'signup-'+data.username+'\'</b> when you make your ' +
+				'reservation at <a href="ticketstycoon.com">ticketstycoon.com</a>!'
 			),
 		};
 	}
@@ -175,28 +175,14 @@ function sendMail(email, subject, template, data) {
 
 	if(template === 'failed') {
 		mailOptions = {
-			from: 'Grub2You <info@grub2you.com>',
+			from: 'Tickets Tycoon <info@ticketstycoon.com>',
 			to: email,
 			subject: subject,
-			text: 'Payment for the following order failed:  http://grub2you.com:3001/#/orderDetails/'+data
+			text: 'Payment for the following order failed:  '+data
 		};
 	}
 
-	console.log('   ');
-	console.log('********** start mailOptions **********');
-	console.log(mailOptions);
-	console.log('********** end mailOptions **********');
-	console.log('   ');
-
 	transporter.sendMail(mailOptions, function(err, info) {
-		if(info) {
-			console.log('   ');
-			console.log('********** start response info **********');
-			console.log(info);
-			console.log('********** end response info **********');
-			console.log('   ');
-		}
-
 		if(err) {
 			console.log('mailFail:');
 			console.log(err);

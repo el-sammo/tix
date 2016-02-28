@@ -21,20 +21,13 @@
 		$http, $routeParams, $modal, layoutMgmt,
 		$rootScope, hoursMgr, customerMgmt
 	) {
+
+		$scope.showLogout = false;
+
 		var sessionPromise = customerMgmt.getSession();
-
-		$scope.showMenu = false;
-
-		$scope.menuClicked = function(forceValue) {
-			if(! _.isUndefined(forceValue)) {
-				$scope.showMenu = forceValue;
-				return;
-			}
-			$scope.showMenu = !$scope.showMenu;
-		}
-
 		sessionPromise.then(function(sessionData) {
 			if(sessionData.customerId) {
+				$scope.showLogout = true;
 				$scope.accessAccount = true;
 				$scope.customerId = sessionData.customerId;
 			}
@@ -46,6 +39,7 @@
 		});
 
 		$rootScope.$on('customerLoggedIn', function(evt, args) {
+			$scope.showLogout = true;
 			$scope.accessAccount = true;
 			$scope.customerId = args;
 			$rootScope.$broadcast('orderChanged');

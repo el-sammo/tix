@@ -10,13 +10,13 @@
 	
 	controller.$inject = [
 		'$scope', '$http', '$routeParams', '$rootScope', '$timeout',
-		'signupPrompter', 'customerMgmt', 'championshipMgmt',
+		'$window', 'signupPrompter', 'customerMgmt', 'championshipMgmt',
 		'poolMgmt', 'reservationMgmt', 'entityMgmt', 'orderMgmt'
 	];
 
 	function controller(
 		$scope, $http, $routeParams, $rootScope, $timeout,
-		signupPrompter, customerMgmt, championshipMgmt,
+		$window, signupPrompter, customerMgmt, championshipMgmt,
 		poolMgmt, reservationMgmt, entityMgmt, orderMgmt
 	) {
 
@@ -24,12 +24,13 @@
 		$scope.reserve = orderMgmt.reserve;
 
 		$rootScope.$on('newReservation', function(evt, args) {
-			refreshData();
+			$window.location.reload();
+//			refreshData();
 		})
 
 		$scope.poolData = [];
 
-		function refreshData() {
+//		function refreshData() {
 
 			var getSessionPromise = customerMgmt.getSession();
 			getSessionPromise.then(function(sessionData) {
@@ -60,10 +61,15 @@
 						thisPoolData.name = pool.name;
 						thisPoolData.entities = [];
 
+						var eeCount = pool.eligibleEntities.length;
+
 						pool.eligibleEntities.forEach(function(entity) {
 
-							var getCostByPEPromise = reservationMgmt.getCostByPE(poolId +'-p&e-'+ entity.entityId +'-p&e-'+ entity.expectedOdds);
+							var getCostByPEPromise = reservationMgmt.getCostByPE(poolId +'-p&e-'+ entity.entityId +'-p&e-'+ entity.expectedOdds +'-p&e-'+ eeCount);
 							getCostByPEPromise.then(function(entityData) {
+
+								entityData.doubleCost = (entityData.nextCost * 2.02).toFixed(2);
+								entityData.quadrupleCost = (entityData.nextCost * 4.04).toFixed(2);
 
 								var getEntityColorsPromise = entityMgmt.getColorsByEntityId(entityData.entityId);
 								getEntityColorsPromise.then(function(entityColors) {
@@ -81,7 +87,6 @@
 									}
 
 									thisPoolData.entities.push(entityData);
-									$scope.poolData.push(thisPoolData);
 
 								});
 			
@@ -89,19 +94,20 @@
 
 						});
 
+						$scope.poolData.push(thisPoolData);
 					});
 
 				});
 
 			});
 		
-			$timeout(function() {
-				refreshData();
-			}, 30000)
-
-		}
-
-		refreshData();
+//			$timeout(function() {
+//				refreshData();
+//			}, 30000)
+//
+//		}
+//
+//		refreshData();
 
 	}
 

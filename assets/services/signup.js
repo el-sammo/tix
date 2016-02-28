@@ -10,11 +10,11 @@
 	app.factory('signupPrompter', service);
 	
 	service.$inject = [
-		'customerMgmt', 'layoutMgmt'
+		'$rootScope', 'customerMgmt', 'layoutMgmt'
 	];
 	
 	function service(
-		customerMgmt, layoutMgmt
+		$rootScope, customerMgmt, layoutMgmt
 	) {
 		var hasPrompted = false;
 		var service = {
@@ -23,7 +23,10 @@
 				hasPrompted = true;
 
 				customerMgmt.getSession().then(function(sessionData) {
-					if(sessionData.customerId) return;
+					if(sessionData.customerId) {
+						$rootScope.$broadcast('customerLoggedIn');
+						return;
+					}
 					layoutMgmt.signUp();
 				});
 			}
@@ -51,143 +54,36 @@
 			layoutMgmt.logIn();
 		};
 
-
-		var b = $http.get('/areas/');
-
-		// if areas ajax fails...
-		b.error(function(err) {
-			console.log('SignUpController: areas ajax failed');
-			console.error(err);
-		});
-		
-		b.then(function(res) {
-			$scope.areas = res.data;
-
-			if($scope.areas && $scope.areas.length === 1) {
-				$scope.selArea = _.first($scope.areas).id;
-			}
-		});
-
+		$scope.validEmail = true;
 		$scope.validUsername = true;
 
-		$scope.state = clientConfig.defaultState || 'WY';
+		$scope.emailSearch = function() {
+			if($scope.email === '') return;
 
-		$scope.step = 0;
-		$scope.submitted = 0;
-
-		$scope.required = function(field, step) {
-			if($scope.submitted <= step || field) return;
-			return 'error';
-		};
-
-		$scope.requiredAddress = function(field, step) {
-			if($scope.submitted <= step) return '';
-			if(field && isValidAddress(field)) return '';
-			return 'error';
+			$http.get('/customers/byEmail/' + $scope.email).then(function(res) {
+				$scope.validEmail = ! (res.data.length > 0);
+			}).catch(function(err) {
+				console.log('layoutMgmt: emailSearch ajax failed');
+				console.error(err);
+			});
 		};
 
 		$scope.usernameSearch = function() {
 			if($scope.username === '') return;
 
-			var s = $http.get('/customers/byUsername/' + $scope.username);
-						
-			// if customers ajax fails...
-			s.error(function(err) {
-				console.log('layoutMgmt: sut-customersGet ajax failed');
-				console.error(err);
-			});
-		
-			s.then(function(res) {
+			$http.get('/customers/byUsername/' + $scope.username).then(function(res) {
 				$scope.validUsername = ! (res.data.length > 0);
-			});
-		};
-
-		$scope.startAccount = function() {
-			$scope.submitted = 1;
-			if(! $scope.isFormComplete(0)) return;
-
-			var customer = {
-				email: $scope.email,
-				username: $scope.username,
-				areaId: $scope.selArea
-			}
-
-			$http.post('/starterAccounts/create', customer).then(function(data) {
-				$scope.step = 1;
 			}).catch(function(err) {
-				console.log('layoutMgmt: sut-customersGet ajax failed');
+				console.log('layoutMgmt: usernameSearch ajax failed');
 				console.error(err);
 			});
-		};
-
-		function splitAddress(address) {
-			var addrInfo = {
-				streetNumber: '',
-				streetName: ''
-			};
-			var matches = address.match(/^([0-9]+) (.+)/);
-			if(matches) {
-				addrInfo.streetNumber = matches[1];
-				addrInfo.streetName = matches[2];
-			}
-			return addrInfo;
-		}
-
-		function isValidAddress(address) {
-			if(! address) return false;
-
-			var addrInfo = splitAddress($scope.address);
-			return addrInfo.streetNumber && addrInfo.streetName;
-		};
-
-		$scope.isFormComplete = function(step) {
-			var reqFields = {
-				0: ['email', 'username', 'password'],
-				1: ['fName', 'lName', 'phone', 'address', 'city', 'state', 'zip']
-			};
-
-			if(! reqFields[step]) return true;
-
-			var isComplete = true;
-			reqFields[step].forEach(function(fieldName) {
-				isComplete = isComplete && $scope[fieldName];
-			});
-
-			if($scope.step > 0) {
-				isComplete = isComplete && isValidAddress($scope.address);
-			}
-
-			return isComplete;
 		};
 
 		$scope.createAccount = function() {
-			$scope.submitted = 2;
-
-			if(! $scope.isFormComplete(1)) {
-				return;
-			}
-
-			var addrInfo = splitAddress($scope.address);
-
 			var customer = {
-				areaId: $scope.selArea,
-				fName: $scope.fName,
-				lName: $scope.lName,
-				addresses: {
-					primary: {
-						streetNumber: addrInfo.streetNumber,
-						streetName: addrInfo.streetName,
-						apt: $scope.apt,
-						city: $scope.city,
-						state: $scope.state,
-						zip: $scope.zip
-					}
-				},
-				username: $scope.username,
-				password: $scope.password,
-				phone: $scope.phone,
 				email: $scope.email,
-				sawBevTour: false
+				username: $scope.username,
+				password: $scope.password
 			}
 
 			customerMgmt.createCustomer(customer).then(function(customerData) {

@@ -8,13 +8,13 @@
 	controller.$inject = [
 		'$q', '$scope', '$modalInstance', '$http', '$rootScope',
 		'customerMgmt', 'clientConfig', 'args', 'entityMgmt',
-		'reservationMgmt', 'signupPrompter'
+		'reservationMgmt', 'signupPrompter', 'layoutMgmt'
 	];
 
 	function controller(
 		$q, $scope, $modalInstance, $http, $rootScope,
 		customerMgmt, clientConfig, args, entityMgmt,
-		reservationMgmt, signupPrompter
+		reservationMgmt, signupPrompter, layoutMgmt
 	) {
 
 		if(args.poolId) {
@@ -35,6 +35,10 @@
 
 		if(args.entityName) {
 			$scope.entityName = args.entityName;
+		}
+
+		$scope.showTerms = function() {
+console.log('$scope.showTerms() called');			
 		}
 
 		if($scope.lastLookupId && $scope.entityId === $scope.lastLookupId) {
@@ -80,7 +84,7 @@
 					});
 				} else {
 					$modalInstance.dismiss('done');
-					signupPrompter.prompt();
+					layoutMgmt.logIn();
 				}
 
 			});

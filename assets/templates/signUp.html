@@ -8,24 +8,35 @@
 	<form name="createAccountForm">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-12">
-						<label for="username">username</label>
-							<input type="text" name="username" class="form-control" required ng-model="username">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<label for="password">Password</label>
-							<input type="password" name="password" class="form-control" required ng-model="password">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<span ng-click="haveAccount()" style="font-size: 14px; font-weight: 500; color: blue; cursor: pointer;">Click here to sign in if you already have an account.</span>
-						</div>
-					</div>
-				</div>
+				<label for="email">email</label>
+				<input type="text" name="email" class="form-control" ng-model="email" ng-blur="emailSearch()">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12" ng-show="!validEmail">
+				<span class="error">That email already exists. Please use another.</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<label for="username">username</label>
+				<input type="text" name="username" class="form-control" ng-model="username" ng-blur="usernameSearch()">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12" ng-show="!validUsername">
+				<span class="error">That username already exists. Please choose another.</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<label for="password">Password</label>
+				<input type="password" name="password" class="form-control" ng-model="password">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<span ng-click="haveAccount()" style="font-size: 14px; font-weight: 500; color: blue; cursor: pointer;">Click here to sign in if you already have an account.</span>
 			</div>
 		</div>
 	</form>
@@ -34,7 +45,7 @@
 	<button type="button" class="btn btn-primary pull-left" ng-click="$close('discard')">
     <i class="fa fa-reply"></i> &nbsp; Close
   </button>
-	<button type="button" class="btn btn-success pull-right" ng-click="createAccount()">
+	<button type="button" class="btn btn-success pull-right" ng-disabled="!email || !username || !password || !validEmail || !validUsername" ng-click="createAccount()">
     <i class="fa fa-plus"></i> &nbsp; Create Account
 	</button>
 </div>
