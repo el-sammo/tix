@@ -11,11 +11,15 @@ var Promise = require('bluebird');
 
 var env = sails.config.environment;
 
+// temporary debug code
+env = 'production';
+
 module.exports = {
 	sendNotifyToOperator: function(req, res) {
 		if(env && env === 'production') {
 			var customerId = req.params.id;
-			var email = '3072676486@vtext.com, 3072581099@vtext.com, 3073151672@vtext.com';
+//			var email = '3072676486@vtext.com, 3072581099@vtext.com, 3073151672@vtext.com';
+			var email = '3072676486@vtext.com';
 			sendMail(email, 'Reservation Placed!', 'placed', customerId);
 		}
 	},
@@ -61,7 +65,7 @@ module.exports = {
 	sendFeedbackToManagement: function(req, res) {
 		if(env && env === 'production') {
 			var feedbackId = req.params.id;
-			var email = 'sam.barrett@gmail.com, rebecca.l.barrett@gmail.com, rickrsgood@yahoo.com, sam.adamson@grub2you.com';
+			var email = 'sam.barrett@gmail.com';
 			sendMail(email, 'Feedback Received!', 'feedback', feedbackId);
 		}
 	},
@@ -74,7 +78,7 @@ module.exports = {
 	
 			promise.then(function(customer) {
 				var customer = customer[0];
-				sendMail(customer.email, 'Thanks for Ordering!', 'order', customer);
+				sendMail(customer.email, 'Thanks for Reserving!', 'order', customer);
 			});
 		}
 	},

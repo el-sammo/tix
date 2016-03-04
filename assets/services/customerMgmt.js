@@ -39,32 +39,19 @@
 			},
 
 			createCustomer: function(customerData) {
-				var address = customerData.addresses.primary;
-	
-				var addressString = address.streetNumber+' '+address.streetName+' '+address.city+' '+address.state+' '+address.zip;
-				
-				return $http.get('/customers/getCoords/'+addressString).then(function(response) {
-					var geo = {};
-					geo.latitude = response.data.lat;
-					geo.longitude = response.data.long;
-					geo.googlePlaceId = response.data.gPID;
-
-					customerData.geo = geo;
-
-					var url = '/customers/create';
-					return $http.post(url, customerData).success(
-						function(data, status, headers, config) {
-							if(status >= 400) {
-								return $q.reject(data);
-							}
-							mergeIntoCustomer(data, true);
-							return customer;
+				var url = '/customers/create';
+				return $http.post(url, customerData).success(
+					function(data, status, headers, config) {
+						if(status >= 400) {
+							return $q.reject(data);
 						}
-					).catch(function(err) {
-						console.log('POST ' + url + ': ajax failed');
-						console.error(err);
-						return $q.reject(err);
-					});
+						mergeIntoCustomer(data, true);
+						return customer;
+					}
+				).catch(function(err) {
+					console.log('POST ' + url + ': ajax failed');
+					console.error(err);
+					return $q.reject(err);
 				});
 			},
 

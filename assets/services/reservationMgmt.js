@@ -19,6 +19,7 @@
 		var getReservationPromise;
 		var getReservationsPromise;
 		var getReservationsByPoolIdPromise;
+		var getHotReservationsPromise;
 		var getCostByPEPromise;
 		var getPoolTotalsPromise;
 
@@ -71,6 +72,19 @@
 					console.error(err);
 					return $q.reject(err);
 				});
+			},
+
+			getHotReservations: function(id) {
+				var url = '/reservations/hotReservations/' + id;
+				getHotReservationsPromise = $http.get(url).then(function(res) {
+					return res.data;
+				}).catch(function(err) {
+					console.log('GET ' + url + ': ajax failed');
+					console.error(err);
+					return $q.reject(err);
+				});
+
+				return getHotReservationsPromise;
 			},
 
 			getCostByPE: function(id) {

@@ -5,6 +5,8 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+var Promise = require('bluebird');
+
 module.exports = {
   datatables: function(req, res) {
     var options = req.query;
@@ -112,12 +114,6 @@ module.exports = {
 					calculatedEntity.entityName = result.entityName;
 				});
 
-if(entityName === 'Baltimore' || entityName === 'Buffalo') {
-console.log(' ');
-console.log(entityName+ ' total: '+entityCostTotal);
-console.log(' ');
-}
-
 				entityCostAverage = (entityCostTotal / entityQuantityTotal).toFixed(2);
 
 				calculatedEntity.entityName = entityName;
@@ -136,13 +132,6 @@ console.log(' ');
 						calculatedEntity.nextCost = (parseFloat(calculatedEntity.nextCost) + parseFloat(minCost)).toFixed(2);
 					}
 				} else {
-if(entityName === 'Baltimore' || entityName === 'Buffalo') {
-console.log(' ');
-console.log(entityName+ ' obligationTotal: '+calculatedEntity.obligationTotal);
-console.log('poolTotal: '+poolData.poolCostTotal);
-console.log(' ');
-}
-
 					if(calculatedEntity.obligationTotal > poolData.poolCostTotal) {
 						calculatedEntity.nextCost = maxCost;
 					} else {
@@ -172,14 +161,58 @@ console.log('multiplying by fourthPercent for '+entityName);
 	},
 	
 	byPoolId: function(req, res) {
-		Reservations.findByPoolId(req.params.id).sort({entityName: 'asc', createdAt: 'asc'}).then(function(results) {
+		var query = {poolId: req.params.id};
+		var sort = {entityName: 'asc', createdAt: 'asc'};
+		Reservations.find(query).sort(sort).then(function(results) {
 			res.send(JSON.stringify(results));
 		}).catch(function(err) {
       res.json({error: 'Server error'}, 500);
       console.error(err);
       throw err;
 		});
-	}
+	},
 	
+	hotReservations: function(req, res) {
+		var hotReservationsList = [];
+		var query = {poolId: req.params.id};
+		var sort = {createdAt: 'desc', cost: 'asc'};
+
+		Reservations.find(query).sort(sort).limit(14).then(function(results) {
+			var entityIdList = [];
+			results.forEach(function(result) {
+				if(entityIdList.indexOf(result.entityId) < 0) {
+					entityIdList.push(result.entityId);
+				}
+			});
+
+			var promises = [];
+
+			var counter = 1;
+			_.forEach(entityIdList, function(entityId) {
+				if(counter > 8) {
+					return false;
+				}
+
+				promises.push(
+					Entities.find({id: entityId}).then(function(result) {
+						hotReservationsList.push(result);
+					}).catch(function(err) {
+						console.log('entity not found: '+entityId);
+					})
+				);
+
+				counter++;
+			});
+
+			return Promise.all(promises);
+
+		}).then(function() {
+			res.json(hotReservationsList);
+
+		}).catch(function(err) {
+			res.json({error: 'Server error'}, 500);
+			console.error(err);
+		});
+	}
 };
 

@@ -55,10 +55,6 @@
 			},
 
 			getPools: function(championshipId) {
-				if(getPoolsPromise) {
-					return getPoolsPromise;
-				}
-
 				var url = '/pools/byChampionshipId/' + championshipId;
 				getPoolsPromise = $http.get(url).then(function(res) {
 					return res.data;

@@ -94,6 +94,7 @@
 					password: customer.password,
 					customerId: customerData.id
 				});
+console.log('preparing to send email to customer with id: '+customerData.id);				
 				$http.post('/mail/sendConfirmationToCustomer/' + customerData.id);
 			}).catch(function(err) {
 				// if customers ajax fails...
