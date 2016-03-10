@@ -51,15 +51,17 @@ module.exports = {
 			var poolCostTotal = 0;
 			var poolQuantityTotal = 0;
 
+			var idsMatrix = [];
 			var namesMatrix = [];
 			var highMatrix = [];
 
 			results.forEach(function(result) {
-				var nameIdx = namesMatrix.indexOf(result.entityName);
+				var idIdx = idsMatrix.indexOf(result.entityId);
 
-				if(nameIdx > -1) {
-					highMatrix[nameIdx] += result.quantity;
+				if(idIdx > -1) {
+					highMatrix[idIdx] += result.quantity;
 				} else {
+					idsMatrix.push(result.entityId);
 					namesMatrix.push(result.entityName);
 					highMatrix.push(result.quantity);
 				};
@@ -69,18 +71,22 @@ module.exports = {
 
 			});
 
+			var poolHighEntityId = '';
 			var poolHighEntityTeam = '';
 			var poolHighEntityCount = 0;
 			var first = true;
-			namesMatrix.forEach(function(name) {
+			idsMatrix.forEach(function(id) {
 				if(first) {
-					poolHighEntityTeam = name;
+					poolHighEntityId = id;
+					poolHighEntityTeam = namesMatrix[0];
 					poolHighEntityCount = highMatrix[0];
+					namesMatrix.shift();
 					highMatrix.shift();
 					first = false;
 				} else {
 					if(highMatrix[0] > poolHighEntityCount) {
-						poolHighEntityTeam = name;
+						poolHighEntityId = id;
+						poolHighEntityTeam = namesMatrix[0];
 						poolHighEntityCount = highMatrix[0];
 					}
 				}
@@ -89,6 +95,7 @@ module.exports = {
 			var poolData = {
 				poolCostTotal: poolCostTotal, 
 				poolQuantityTotal: poolQuantityTotal,
+				poolHighEntityId: poolHighEntityId,
 				poolHighEntityTeam: poolHighEntityTeam,
 				poolHighEntityCount: poolHighEntityCount
 			};
@@ -163,6 +170,18 @@ console.log('multiplying by fourthPercent for '+entityName);
 	byPoolId: function(req, res) {
 		var query = {poolId: req.params.id};
 		var sort = {entityName: 'asc', createdAt: 'asc'};
+		Reservations.find(query).sort(sort).then(function(results) {
+			res.send(JSON.stringify(results));
+		}).catch(function(err) {
+      res.json({error: 'Server error'}, 500);
+      console.error(err);
+      throw err;
+		});
+	},
+	
+	byCustomerId: function(req, res) {
+		var query = {customerId: req.params.id};
+		var sort = {createdAt: 'asc', entityName: 'asc'};
 		Reservations.find(query).sort(sort).then(function(results) {
 			res.send(JSON.stringify(results));
 		}).catch(function(err) {

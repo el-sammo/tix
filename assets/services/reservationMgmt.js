@@ -19,6 +19,7 @@
 		var getReservationPromise;
 		var getReservationsPromise;
 		var getReservationsByPoolIdPromise;
+		var getReservationsByCustomerIdPromise;
 		var getHotReservationsPromise;
 		var getCostByPEPromise;
 		var getPoolTotalsPromise;
@@ -125,6 +126,20 @@
 				});
 
 				return getReservationsByPoolIdPromise;
+			},
+
+			getReservationsByCustomerId: function(customerId) {
+
+				var url = '/reservations/byCustomerId/' + customerId;
+				getReservationsByCustomerIdPromise = $http.get(url).then(function(res) {
+					return res.data;
+				}).catch(function(err) {
+					console.log('GET ' + url + ': ajax failed');
+					console.error(err);
+					return $q.reject(err);
+				});
+
+				return getReservationsByCustomerIdPromise;
 			}
 
 		};

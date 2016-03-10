@@ -11,18 +11,19 @@
 	app.controller('LayoutController', controller);
 	
 	controller.$inject = [
-		'navMgr', 'pod', '$scope',
+		'navMgr', 'pod', '$scope', '$window',
 		'$http', '$routeParams', '$modal', 'layoutMgmt',
 		'$rootScope', 'hoursMgr', 'customerMgmt'
 	];
 
 	function controller(
-		navMgr, pod, $scope,
+		navMgr, pod, $scope, $window,
 		$http, $routeParams, $modal, layoutMgmt,
 		$rootScope, hoursMgr, customerMgmt
 	) {
 
 		$scope.showLogout = false;
+		$scope.accessAccount = false;
 
 		var sessionPromise = customerMgmt.getSession();
 		sessionPromise.then(function(sessionData) {
@@ -30,6 +31,10 @@
 				$scope.showLogout = true;
 				$scope.accessAccount = true;
 				$scope.customerId = sessionData.customerId;
+			}
+
+			$scope.showAccount = function() {
+				$window.location.href = location.origin + "/app/account";
 			}
 
 			$scope.logIn = layoutMgmt.logIn;

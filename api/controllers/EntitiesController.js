@@ -16,8 +16,17 @@ module.exports = {
       console.error(err);
       throw err;
     });
-	}
+	},
 	
+	byLeagueCode: function(req, res) {
+		Entities.find({leagueCode: req.params.id}).sort({name: -1}).then(function(results) {
+			res.send(JSON.stringify(results));
+		}).catch(function(err) {
+      res.json({error: 'Server error'}, 500);
+      console.error(err);
+      throw err;
+		});
+	}
 	
 };
 

@@ -13,6 +13,10 @@ module.exports = {
     name: {
       type: 'string',
       required: true
+		},
+		leagueCode: {
+			type: 'string',
+			required: true
 		}
   }
   

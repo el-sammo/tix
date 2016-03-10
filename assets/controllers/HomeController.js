@@ -9,16 +9,23 @@
 	app.controller('HomeController', controller);
 	
 	controller.$inject = [
-		'$scope', '$http', '$routeParams', '$rootScope', 
+		'$scope', '$http', '$routeParams', '$rootScope', '$window', 
 		'signupPrompter', 'customerMgmt', 'championshipMgmt',
-		'poolMgmt', 'reservationMgmt'
+		'poolMgmt', 'reservationMgmt', 'entityMgmt', 'orderMgmt'
 	];
 
 	function controller(
-		$scope, $http, $routeParams, $rootScope, 
+		$scope, $http, $routeParams, $rootScope, $window,
 		signupPrompter, customerMgmt, championshipMgmt,
-		poolMgmt, reservationMgmt
+		poolMgmt, reservationMgmt, entityMgmt, orderMgmt
 	) {
+
+		// listener for customer reserving
+		$scope.reserve = orderMgmt.reserve;
+
+		$rootScope.$on('newReservation', function(evt, args) {
+			$window.location.reload();
+		})
 
 		signupPrompter.prompt();
 

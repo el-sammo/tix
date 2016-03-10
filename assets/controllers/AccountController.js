@@ -12,13 +12,13 @@
 	controller.$inject = [
 		'$scope', '$http', 'messenger', '$rootScope',
 		'$window', 'payMethodMgmt', 'layoutMgmt', 'customerMgmt',
-		'accountMgmt'
+		'accountMgmt', 'reservationMgmt'
 	];
 
 	function controller(
 		$scope, $http, messenger, $rootScope,
 		$window, payMethodMgmt, layoutMgmt, customerMgmt,
-		accountMgmt
+		accountMgmt, reservationMgmt
 	) {
 
 		$scope.addPM = payMethodMgmt.modals.add;
@@ -28,7 +28,6 @@
 		$scope.logOut = layoutMgmt.logOut;
 
 		var sessionPromise = customerMgmt.getSession();
-
 		sessionPromise.then(function(sessionData) {
 			if(!sessionData.customerId) {
 				$window.location.href = '/';
@@ -36,7 +35,6 @@
 			}
 
 			var customerId = sessionData.customerId;
-
 			customerMgmt.getCustomer(customerId).then(function(customer) {
 				$scope.customer = customer;
 				var taxExempt = '';
@@ -44,43 +42,34 @@
 					var taxExempt = 'Tax Exempt';
 				}
 				$scope.taxExempt = taxExempt;
-			});
-		
-			var r = $http.get('/orders/byCustomerId/' + customerId);
-		
-			r.error(function(err) {
-				console.log('AccountController: orders ajax failed');
-				console.error(err);
-			});
-		
-			r.then(function(res) {
-				var completedHistory = [];
-				res.data.forEach(function(order) {
-					if(order.orderStatus > 4) {
 
-						var d = new Date(order.paymentAcceptedAt);
+				var getCustomerReservationsPromise = reservationMgmt.getReservationsByCustomerId(customer.id);
+				getCustomerReservationsPromise.then(function(reservationData) {
 
-						var orderYear = d.getFullYear();
-						var orderMonth = d.getMonth() + 1;
-						var orderDate = d.getDate();
+					var completedHistory = [];
+					reservationData.forEach(function(reservation) {
+						var d = new Date(reservation.paymentAcceptedAt);
 
-						if(orderMonth < 10) {
-							orderMonth = '0'+orderMonth;
+						var reservationYear = d.getFullYear();
+						var reservationMonth = d.getMonth() + 1;
+						var reservationDate = d.getDate();
+
+						if(reservationMonth < 10) {
+							reservationMonth = '0'+reservationMonth;
 						}
 
-						if(orderDate < 10) {
-							orderDate = '0'+orderDate;
+						if(reservationDate < 10) {
+							reservationDate = '0'+reservationDate;
 						}
 
-						var completedDate = orderYear+'-'+orderMonth+'-'+orderDate;
+						var completedDate = reservationYear+'-'+reservationMonth+'-'+reservationDate;
 
-						order.orderDate = completedDate;
-						order.total = parseFloat(order.total).toFixed(2);
-						completedHistory.push(order);
-					}
+						reservation.reservationDate = completedDate;
+						reservation.total = parseFloat(reservation.total).toFixed(2);
+						completedHistory.push(reservation);
+					});
+					$scope.reservations = completedHistory;
 				});
-		
-				$scope.orders = completedHistory;
 			});
 		});
 
@@ -88,5 +77,4 @@
 			$scope.customer = customer;
 		});
 	}
-
 }());

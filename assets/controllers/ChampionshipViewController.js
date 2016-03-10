@@ -25,7 +25,6 @@
 
 		$rootScope.$on('newReservation', function(evt, args) {
 			$window.location.reload();
-//			refreshData();
 		})
 
 		$scope.poolData = [];
@@ -61,40 +60,44 @@
 						thisPoolData.name = pool.name;
 						thisPoolData.entities = [];
 
-						var eeCount = pool.eligibleEntities.length;
-
-						pool.eligibleEntities.forEach(function(entity) {
-
-							var getCostByPEPromise = reservationMgmt.getCostByPE(poolId +'-p&e-'+ entity.entityId +'-p&e-'+ entity.expectedOdds +'-p&e-'+ eeCount);
-							getCostByPEPromise.then(function(entityData) {
-
-								entityData.doubleCost = (entityData.nextCost * 2.02).toFixed(2);
-								entityData.quadrupleCost = (entityData.nextCost * 4.04).toFixed(2);
-
-								var getEntityColorsPromise = entityMgmt.getColorsByEntityId(entityData.entityId);
-								getEntityColorsPromise.then(function(entityColors) {
-
-									if(entityColors.color1) {
-										entityData.color1= entityColors.color1;
-									}
-
-									if(entityColors.color2) {
-										entityData.color2 = entityColors.color2;
-									}
-
-									if(entityColors.color3) {
-										entityData.color3 = entityColors.color3;
-									}
-
-									thisPoolData.entities.push(entityData);
-
+						if(pool.eligibleEntities) {
+							var eeCount = pool.eligibleEntities.length;
+	
+							pool.eligibleEntities.forEach(function(entity) {
+	
+								var getCostByPEPromise = reservationMgmt.getCostByPE(poolId +'-p&e-'+ entity.entityId +'-p&e-'+ entity.expectedOdds +'-p&e-'+ eeCount);
+								getCostByPEPromise.then(function(entityData) {
+	
+									entityData.doubleCost = (entityData.nextCost * 2.02).toFixed(2);
+									entityData.quadrupleCost = (entityData.nextCost * 4.04).toFixed(2);
+	
+									var getEntityColorsPromise = entityMgmt.getColorsByEntityId(entityData.entityId);
+									getEntityColorsPromise.then(function(entityColors) {
+	
+										if(entityColors.color1) {
+											entityData.color1= entityColors.color1;
+										}
+	
+										if(entityColors.color2) {
+											entityData.color2 = entityColors.color2;
+										}
+	
+										if(entityColors.color3) {
+											entityData.color3 = entityColors.color3;
+										}
+	
+										thisPoolData.entities.push(entityData);
+	
+									});
+				
 								});
-			
+	
 							});
 
-						});
+							$scope.poolData.push(thisPoolData);
 
-						$scope.poolData.push(thisPoolData);
+						}
+
 					});
 
 				});

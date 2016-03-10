@@ -63,11 +63,33 @@
 												class="row" 
 												ng-repeat="reservation in pool.hotReservations"
 											>
-												<div class="col-md-6">
-													<span class="hotReservation">{{reservation.name}}</span>
+												<div class="col-md-8">
+													<span 
+														class="hotReservation" 
+														style="cursor: pointer;"
+														ng-click="reserve(
+															pool.id, 
+															reservation.id, 
+															1, 
+															reservation.cost, 
+															reservation.name
+														)">
+															{{reservation.name}}
+													</span>
 												</div>
-												<div class="col-md-6" style="text-align: right;">
-													<span class="hotReservation">${{reservation.cost}}</span>
+												<div class="col-md-4" style="text-align: right;">
+													<span 
+														class="hotReservation" 
+														style="cursor: pointer;"
+														ng-click="reserve(
+															pool.id, 
+															reservation.id, 
+															1, 
+															reservation.cost, 
+															reservation.name
+														)">
+															{{reservation.cost}}
+													</span>
 												</div>
 											</div>
 										</div>
