@@ -27,10 +27,20 @@
 			$window.location.reload();
 		})
 
-		signupPrompter.prompt();
-
 		var getSessionPromise = customerMgmt.getSession();
 		getSessionPromise.then(function(sessionData) {
+
+console.log('sessionData:');
+console.log(sessionData);
+
+			if(sessionData.customerId) {
+				$rootScope.customerId = sessionData.customerId;
+				$scope.customerId = $rootScope.customerId;
+			}
+
+			if(!sessionData.welcomed) {
+				signupPrompter.welcome();
+			}
 
 			var getChampionshipsPromise = championshipMgmt.getCurrentChampionships();
 			getChampionshipsPromise.then(function(championshipData) {
@@ -114,12 +124,6 @@
 				});
 			});
 
-			if(!sessionData.customerId) {
-				signupPrompter.prompt();
-			} else {
-				$rootScope.customerId = sessionData.customerId;
-				$scope.customerId = $rootScope.customerId;
-			}
 		}).catch(function(err) {
 			console.log('customerMgmt.getSession() failed');
 			console.log(err);

@@ -4,69 +4,162 @@
 			<div class="row" id="championshipViewHead">
 				<h1>{{championshipData.tagline}}</h1>
 			</div>
-			<div class="row" id="championshipViewBody">
-				<div class="col-md-12">
+			<div class="row" id="championshipViewBody_{{championshipData.activity}}">
+				<div class="col-md-12 greyBgChamp">
 					<div class="row" ng-repeat="pool in poolData track by $index">
 						<div class="col-md-12">
 							<div class="row">
 								<div class="col-md-12">
-									<h3>{{pool.name}}</h3>
+									<span class="hotBoxHeading">{{pool.name}}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-4">
-									<span class="text-muted">{{championship.date}}</span>
+									<span class="hotBoxSubHeading">{{championshipData.date}}</span>
 								</div>
 								<div class="col-md-4">
-									<span class="text-muted">{{championship.location}}</span>
+									<span class="hotBoxSubHeading">{{championshipData.location}}</span>
 								</div>
 							</div>
 							<br/>
 							<div class="row">
 								<div class="col-md-2">
-									<span class="text-muted">Team</span>
+									<span class="hotBoxMiniHeading">Team</span>
 								</div>
 								<div class="col-md-1 col-md-offset-1">
 									<p class="text-right">
-										<span class="text-muted">1 Ticket</span>
+										<span class="hotBoxMiniHeading">1 Ticket</span>
 									</p>
 								</div>
 								<div class="col-md-1 col-md-offset-1">
 									<p class="text-right">
-										<span class="text-muted">2 Tickets</span>
+										<span class="hotBoxMiniHeading">2 Tickets</span>
 									</p>
 								</div>
 								<div class="col-md-1 col-md-offset-1">
 									<p class="text-right">
-										<span class="text-muted">4 Tickets</span>
+										<span class="hotBoxMiniHeading">4 Tickets</span>
 									</p>
 								</div>
 							</div>
 							<br/>
 							<div class="row" ng-repeat="entity in pool.entities">
-								<div class="col-md-12" style="height: 24px; margin: 0px 0px 8px 0px;">
-									<div class="row" style="background-color: #{{entity.color2}}; border: 2px solid #{{entity.color3}}">
+								<div 
+									class="col-md-12" 
+									style="height: 24px; margin: 0px 0px 8px 0px;"
+								>
+									<div 
+										class="row" 
+									>
 										<div class="col-md-2" style="height: 24px;">
-											<span style="font-size: 16px; font-weight: 700; color: #{{entity.color1}};">{{entity.entityName}}</span>
+											<span class="hotBoxSubHeading">
+												{{entity.entityName}}
+											</span>
 										</div>
-										<div class="col-md-1 col-md-offset-1" style="height: 24px;">
+										<div 
+											class="col-md-1 col-md-offset-1" 
+											style="
+												height: 24px;
+												background-color: #{{entity.color2}}; 
+												border: 2px solid #{{entity.color3}};
+												border-radius: 25px;
+											"
+										>
 											<p class="text-right">
-												<span style="font-size: 16px; font-weight: 700; text-decoration: none; color: #{{entity.color1}}; cursor: pointer;">
-													<span ng-click="reserve(pool.id, entity.entityId, 1, entity.nextCost, entity.entityName)">{{entity.nextCost}}</span>
+												<span 
+													style="
+														font-size: 16px; 
+														font-weight: 700; 
+														text-decoration: none; color: #{{entity.color1}}; 
+														cursor: pointer;
+													"
+													title="
+														Reserve 1 Ticket for {{entity.entityName}}
+													"
+												>
+													<span 
+														ng-click="reserve(
+															pool.id, 
+															entity.entityId, 
+															1, 
+															entity.nextCost, 
+															entity.entityName
+														)"
+													>
+														{{entity.nextCost}}
+													</span>
 												</span>
 											</p>
 										</div>
-										<div class="col-md-1 col-md-offset-1" style="height: 24px;">
+										<div 
+											class="col-md-1 col-md-offset-1" 
+											style="
+												height: 24px;
+												background-color: #{{entity.color2}}; 
+												border: 2px solid #{{entity.color3}};
+												border-radius: 25px;
+											"
+										>
 											<p class="text-right">
-												<span style="font-size: 16px; font-weight: 700; text-decoration: none; color: #{{entity.color1}}; cursor: pointer;">
-													<span ng-click="reserve(pool.id, entity.entityId, 2, entity.doubleCost, entity.entityName)">{{entity.doubleCost}}</span>
+												<span 
+													style="
+														font-size: 16px; 
+														font-weight: 700; 
+														text-decoration: none; 
+														color: #{{entity.color1}}; 
+														cursor: pointer;
+													"
+													title="
+														Reserve 2 Tickets for {{entity.entityName}}
+													"
+												>
+													<span 
+														ng-click="reserve(
+															pool.id, 
+															entity.entityId, 
+															2, 
+															entity.doubleCost, 
+															entity.entityName
+														)"
+													>
+														{{entity.doubleCost}}
+													</span>
 												</span>
 											</p>
 										</div>
-										<div class="col-md-1 col-md-offset-1" style="height: 24px;">
+										<div 
+											class="col-md-1 col-md-offset-1" 
+											style="
+												height: 24px;
+												background-color: #{{entity.color2}}; 
+												border: 2px solid #{{entity.color3}};
+												border-radius: 25px;
+											"
+										>
 											<p class="text-right">
-												<span style="font-size: 16px; font-weight: 700; text-decoration: none; color: #{{entity.color1}}; cursor: pointer;">
-													<span ng-click="reserve(pool.id, entity.entityId, 4, entity.quadrupleCost, entity.entityName)">{{entity.quadrupleCost}}</span>
+												<span 
+													style="
+														font-size: 16px; 
+														font-weight: 700; 
+														text-decoration: none; 
+														color: #{{entity.color1}}; 
+														cursor: pointer;
+													"
+													title="
+														Reserve 4 Tickets for {{entity.entityName}}
+													"
+												>
+													<span 
+														ng-click="reserve(
+															pool.id, 
+															entity.entityId, 
+															4, 
+															entity.quadrupleCost, 
+															entity.entityName
+														)"
+													>
+														{{entity.quadrupleCost}}
+													</span>
 												</span>
 											</p>
 										</div>

@@ -155,6 +155,8 @@ module.exports = {
 				sessionData.customerId = req.session.customerId;
 			}
 
+			sessionData.welcomed = false;
+
 			// What if neither had any data at all? AKA a new session?
 			// I *THINK* we can check for this by determining the 
 			// presence of sessionId on sessionData.order
@@ -260,8 +262,12 @@ module.exports = {
       console.error(err);
       throw err;
     });
-  }
+  },
 	
+  welcomed: function(req, res) {
+    req.session.welcomed = true;
+		res.send({'welcome': true});
+  }
 };
 
 function processLogin(req, res, self) {
