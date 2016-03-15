@@ -91,105 +91,23 @@ module.exports = {
 
 	session: function(req, res) {
 		var sessionData = {
-			order: {},
 		};
-		var sessionOrder = {};
-		var customerOrder = {};
 
-		// Get order for session
-		var p = Orders.find({sessionId: req.sessionID, orphaned: false});
-		p.sort({updatedAt: 'desc'}).limit(1).then(function(results) {
-			if(results.length > 0) {
-				if(parseInt(results[0].orderStatus) < 5) {
-					sessionOrder = results[0];
-				}
-			}
+		// Build rest of sessionData
+		if(req && req.sessionID) {
+			sessionData.sid = req.sessionID;
+		}
 
-			if(! (req.session && req.session.customerId)) {
-				return;
-			}
+		if(req.session && req.session.customerId) {
+			sessionData.customerId = req.session.customerId;
+		}
 
-			// Get order for customer
-			return Orders.find({
-				'customerId': req.session.customerId, 'orphaned': false
-			}).sort({updatedAt: 'desc'}).then(function(results) {
-				if(results.length > 0 && parseInt(results[0].orderStatus) < 5) {
-					customerOrder = results[0];
-				}
-				return;
-			});
+		if(req.session && req.session.welcomed) {
+			sessionData.welcomed = req.session.welcomed;
+		}
 
-		}).then(function() {
-			// Pick which order is the most recent and attach to sessionData
-			if(sessionOrder.things) {
-				if(customerOrder.things) {
-					if(customerOrder.updatedAt >= sessionOrder.updatedAt) {
-						sessionData.order = customerOrder;
-					} else {
-						sessionData.order = sessionOrder;
-					}
-				} else {
-					sessionData.order = sessionOrder;
-				}
-			} else {
-				if(customerOrder.things) {
-					sessionData.order = customerOrder;
-				} else {
-					sessionOrder.updatedAt || (sessionOrder.updatedAt = 0);
-					customerOrder.updatedAt || (customerOrder.updatedAt = 0);
-		
-					if(customerOrder.updatedAt >= sessionOrder.updatedAt) {
-						sessionData.order = customerOrder;
-					} else {
-						sessionData.order = sessionOrder;
-					}
-				}
-			}
-
-			// Build rest of sessionData
-			if(req && req.sessionID) {
-				sessionData.sid = req.sessionID;
-			}
-
-			if(req.session && req.session.customerId) {
-				sessionData.customerId = req.session.customerId;
-			}
-
-			sessionData.welcomed = false;
-
-			// What if neither had any data at all? AKA a new session?
-			// I *THINK* we can check for this by determining the 
-			// presence of sessionId on sessionData.order
-			// I think we instantiate a new order with the req.sessionID
-			// attached to the order as sessionData.order.sessionId
-			if(!sessionData.order.sessionId) {
-				sessionData.order = {};
-				sessionData.order.sessionId = req.sessionID;
-				sessionData.order.orderStatus = parseInt(1);
-				sessionData.order.orphaned = false;
-				sessionData.order.sawBevTour = false;
-				return Orders.create(sessionData.order).then(function(order) {
-					_.extend(sessionData.order, order);
-					return;
-				});
-			}
-
-		}).then(function() {
-			// Also, make sure that if the session order doesn't have a customer id,
-			// and a customer id is present, we set the customer id on the session
-			// order
-			if(! sessionOrder.customerId && req.session && req.session.customerId) {
-				sessionOrder.customerId = req.session.customerId;
-				Orders.update(sessionOrder.id, {customerId: sessionOrder.customerId});
-			}
-
-			// Send session data
-			res.json(sessionData);
-
-		}).catch(function(err) {
-			res.json({error: 'Server error'}, 500);
-			console.error(err);
-		});
+		// Send session data
+		res.json(sessionData);
   },
 
 	setConfig: function(req, res) {
