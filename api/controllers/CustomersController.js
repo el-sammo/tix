@@ -27,7 +27,6 @@ var geocoder = require('node-geocoder')(geocoderProvider, httpAdapter, extra);
 
 module.exports = {
   createANet: function(req, res) {
-		console.log('createANet() called with: '+req.body.customerId);
     var isAjax = req.headers.accept.match(/application\/json/);
 
 		if(req.body && req.body.customerId) {
@@ -53,7 +52,6 @@ module.exports = {
 	},
 
   login: function(req, res) {
-		console.log('login() called @ CustomersController');
     var isAjax = req.headers.accept.match(/application\/json/);
 
     if(req.session.isAuthenticated) {

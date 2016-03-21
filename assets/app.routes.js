@@ -60,6 +60,26 @@
 
 
 		///
+		// Reservation
+		///
+
+		$routeProvider.when('/reservation/:id', {
+			controller: 'ReservationDetailsController',
+			templateUrl: '/templates/reservationDetails.html'
+		});
+
+
+		///
+		// TOS
+		///
+
+		$routeProvider.when('/tos', {
+			controller: 'TosController',
+			templateUrl: '/templates/tos.html'
+		});
+
+
+		///
 		// Other
 		///
 

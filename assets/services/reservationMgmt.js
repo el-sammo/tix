@@ -26,16 +26,46 @@
 
 		var service = {
 			createReservation: function(reservationData) {
-				var url = '/reservations/create';
-				return $http.post(url, reservationData).success(
+				var createNewReservationUrl = '/reservations/createNewReservation';
+				return $http.post(createNewReservationUrl, reservationData).success(
 					function(data, status, headers, config) {
+					if(status >= 400) {
+						return $q.reject(data);
+					}
+					var processPaymentUrl = '/checkout/processCCPayment';
+					return $http.post(processPaymentUrl, reservationData).success(
+						function(data, status, headers, config) {
 						if(status >= 400) {
 							return $q.reject(data);
 						}
-						return reservationData;
-					}
-				).catch(function(err) {
-					console.log('POST ' + url + ': ajax failed');
+						var url = '/reservations/create';
+							var createReservationData = {
+								cost: reservationData.cost,
+								customerId: reservationData.customerId,
+								entityId: reservationData.entityId,
+								entityName: reservationData.entityName,
+								poolId: reservationData.poolId,
+								quantity: reservationData.quantity,
+								total: reservationData.total
+							};
+						return $http.post(url, createReservationData).success(
+							function(data, status, headers, config) {
+							if(status >= 400) {
+								return $q.reject(data);
+							}
+							return data;
+						}).catch(function(err) {
+						console.log('POST ' + url + ': ajax failed');
+							console.error(err);
+							return $q.reject(err);
+						});
+					}).catch(function(err) {
+						console.log('POST ' + processPaymentUrl + ': ajax failed');
+						console.error(err);
+						return $q.reject(err);
+					});
+				}).catch(function(err) {
+					console.log('POST ' + createNewReservationUrl + ': ajax failed');
 					console.error(err);
 					return $q.reject(err);
 				});

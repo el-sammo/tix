@@ -48,23 +48,9 @@
 
 					var completedHistory = [];
 					reservationData.forEach(function(reservation) {
-						var d = new Date(reservation.paymentAcceptedAt);
-
-						var reservationYear = d.getFullYear();
-						var reservationMonth = d.getMonth() + 1;
-						var reservationDate = d.getDate();
-
-						if(reservationMonth < 10) {
-							reservationMonth = '0'+reservationMonth;
+						if(reservation.createdAt) {
+							reservation.reservationDate = reservation.createdAt.substr(0,10);
 						}
-
-						if(reservationDate < 10) {
-							reservationDate = '0'+reservationDate;
-						}
-
-						var completedDate = reservationYear+'-'+reservationMonth+'-'+reservationDate;
-
-						reservation.reservationDate = completedDate;
 						reservation.total = parseFloat(reservation.total).toFixed(2);
 						completedHistory.push(reservation);
 					});

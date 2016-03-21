@@ -29,7 +29,7 @@
 					}
 				});
 			},
-			reserve: function(poolId, entityId, quantity, total, entityName) {
+			reserve: function(poolId, entityId, quantity, total, entityName, eOds, eeCount) {
 				$modal.open({
 					templateUrl: '/templates/addReservation.html',
 					backdrop: true,
@@ -41,7 +41,9 @@
 								entityId: entityId,
 								quantity: quantity,
 								total: total,
-								entityName: entityName
+								entityName: entityName,
+								eOds: eOds,
+								eeCount: eeCount
 							}
 						}
 					}

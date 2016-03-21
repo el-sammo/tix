@@ -30,9 +30,6 @@
 		var getSessionPromise = customerMgmt.getSession();
 		getSessionPromise.then(function(sessionData) {
 
-console.log('sessionData:');
-console.log(sessionData);
-
 			if(sessionData.customerId) {
 				$rootScope.customerId = sessionData.customerId;
 				$scope.customerId = $rootScope.customerId;
@@ -91,7 +88,9 @@ console.log(sessionData);
 												leagueCode: hotReservation[0].leagueCode,
 												color1: hotReservation[0].color1,
 												color2: hotReservation[0].color2,
-												cost: peData.nextCost
+												cost: peData.nextCost.toFixed(2),
+												eOds: expectedOdds,
+												eeCount: eeCount
 											};
 											if(hotReservation[0].color3) {
 												thisHotReservation.color3 = hotReservation[0].color3;
@@ -119,7 +118,24 @@ console.log(sessionData);
 						championshipHotReservationsData.pools.push(poolHotReservationData);
 						})
 					});
+
 					completeData.push(championshipHotReservationsData);
+
+					var rowsData = [];
+					var cols = [];
+
+					completeData.forEach(function(championship) {
+						if(cols.length == 2) {
+							rowsData.push(cols);
+							cols = [];
+							cols.push(championship);
+						} else {
+							cols.push(championship);
+						}
+					});
+					rowsData.push(cols);
+
+					$scope.rowsData = rowsData;
 					$scope.championshipData = completeData;
 				});
 			});

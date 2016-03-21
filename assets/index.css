@@ -239,7 +239,7 @@ td {
 
 #baseball_small {
 	background-image: url("images/baseball_big.jpg");
-	background-size: 480px 360px;
+	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 1px solid white;
 	border-radius: 25px;
@@ -286,10 +286,13 @@ td {
 }
 
 .greyBg {
-	margin: 18px;
+	margin: 8px;
 	border: 1px solid;
 	border-radius: 25px;
 	background: rgba(54, 25, 25, .5);
+	width: 96%;
+	left: 1%;
+	position: relative;
 }
 
 .greyBgChamp {
