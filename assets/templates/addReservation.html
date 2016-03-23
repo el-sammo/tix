@@ -29,7 +29,7 @@
 				<span class="error"><strong>{{failMsg}} Please try again...</strong>.</span><br/>
 			</div>
 		</div>
-		<div class="row no-margin">
+		<div ng-show="!getMore" class="row no-margin">
 			<h4>Select Your Payment Method</h4>
 			<div class="radio" ng-repeat="method in checkoutPaymentMethods">
 				<label>
@@ -39,11 +39,15 @@
 			</div>
 		</div>
 
+		<div ng-show="getMore" class="form-section">
+			<ng-include src="'/templates/addBasic.html'"></ng-include>
+		</div>
+
 		<div ng-show="selMethod === 'newCard'" class="form-section">
 			<ng-include src="'/templates/addPMInputs.html'"></ng-include>
 		</div>
 
-		<div ng-show="selMethod !== 'newCard'" class="form-section">
+		<div ng-show="selMethod !== 'newCard' && !getMore" class="form-section">
 			<div class="row">
 				<div class="col-md-4">
 					<span class="promoLabel">Promo Code?</span>
@@ -78,7 +82,7 @@
 			</div>
 		</div>
 		<br/>
-		<div class="row">
+		<div ng-show="!getMore" class="row">
 			<div class="col-md-12">
 				<input type="checkbox" ng-model="agree">
 				<a href="/app/tos" target="_blank" style="color: blue; top: -2px; position: relative; text-decoration: none; cursor: pointer">I have read and agree to the Terms and Conditions</a>
@@ -87,7 +91,15 @@
 	</form>
 </div>
 <div class="modal-footer">
-	<div ng-show="selMethod !== 'newCard'">
+	<div ng-show="getMore">
+		<button type="button" class="btn btn-primary pull-left" ng-click="closeReservation()">
+			<i class="fa fa-reply"></i> &nbsp; Go Back
+		</button>
+		<button type="button" class="btn btn-success pull-right" ng-click="addBasics()" ng-disabled="!customer.fName || !customer.lName || !customer.phone">
+			<i class="fa fa-plus"></i> &nbsp; Continue
+		</button>
+	</div>
+	<div ng-show="selMethod !== 'newCard' && !getMore">
 		<button type="button" class="btn btn-primary pull-left" ng-click="closeReservation()">
 			<i class="fa fa-reply"></i> &nbsp; Go Back
 		</button>

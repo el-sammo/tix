@@ -10,11 +10,11 @@
 	app.factory('reservationMgmt', service);
 	
 	service.$inject = [
-		'$http', '$q', '$sce', 'configMgr', 'querystring'
+		'$http', '$q'
 	];
 	
 	function service(
-		$http, $q, $sce, configMgr, querystring
+		$http, $q
 	) {
 		var getReservationPromise;
 		var getReservationsPromise;
@@ -28,17 +28,20 @@
 			createReservation: function(reservationData) {
 				var createNewReservationUrl = '/reservations/createNewReservation';
 				return $http.post(createNewReservationUrl, reservationData).success(
-					function(data, status, headers, config) {
+					function(cnrData, status, headers, config) {
 					if(status >= 400) {
-						return $q.reject(data);
+						return $q.reject(cnrData);
 					}
 					var processPaymentUrl = '/checkout/processCCPayment';
 					return $http.post(processPaymentUrl, reservationData).success(
-						function(data, status, headers, config) {
+						function(pccpData, status, headers, config) {
 						if(status >= 400) {
-							return $q.reject(data);
+							return $q.reject(pccpData);
 						}
-						var url = '/reservations/create';
+						if(pccpData.success) {
+							var dateObj = new Date();
+							var paymentInitiatedAt = dateObj.getTime();
+							var url = '/reservations/create';
 							var createReservationData = {
 								cost: reservationData.cost,
 								customerId: reservationData.customerId,
@@ -46,19 +49,24 @@
 								entityName: reservationData.entityName,
 								poolId: reservationData.poolId,
 								quantity: reservationData.quantity,
-								total: reservationData.total
+								total: reservationData.total,
+								paymentInitiatedAt: paymentInitiatedAt
 							};
-						return $http.post(url, createReservationData).success(
-							function(data, status, headers, config) {
-							if(status >= 400) {
-								return $q.reject(data);
-							}
-							return data;
-						}).catch(function(err) {
-						console.log('POST ' + url + ': ajax failed');
-							console.error(err);
-							return $q.reject(err);
-						});
+							return $http.post(url, createReservationData).success(
+								function(cData, status, headers, config) {
+								if(status >= 400) {
+									return $q.reject(cData);
+								}
+								return cData;
+							}).catch(function(err) {
+							console.log('POST ' + url + ': ajax failed');
+								console.error(err);
+								return $q.reject(err);
+							});
+						} else {
+							return $q.reject(pccpData);
+						}
+
 					}).catch(function(err) {
 						console.log('POST ' + processPaymentUrl + ': ajax failed');
 						console.error(err);

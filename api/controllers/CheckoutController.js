@@ -75,6 +75,15 @@ function captureCCTransaction(req, res, self) {
 				// transaction types:
 				// AuthCapture, AuthOnly, CaptureOnly, PriorAuthCapture
 				return AuthorizeCIM.createCustomerProfileTransaction('AuthCapture', transaction, function(err, response) {
+					if(response) {
+console.log('response:');						
+console.log(response);						
+						if(response.directResponse) {
+console.log('response.directResponse:');							
+console.log(response.directResponse);							
+							var dirResPcs = response.directResponse.split(',');
+						}
+					} 
 					if(err) {
 						console.log('err:');
 						console.log(err.message);
@@ -86,15 +95,8 @@ function captureCCTransaction(req, res, self) {
 						// TODO: fix this
 						// send an aggressive alert to op/mngr notifying of payment failure
 						// $http.post('/mail/sendFailToOperator/'+$scope.order.id);
-						return res.json({success: false, msg: 'sendFailToOperator: '+dirResPcs[3]});
-
-						console.log('   ');
-						console.log('just sent fail (a)');
-						console.log('   ');
-
-						return res.json({success: false, msg: err.message});
+						return res.json({success: false, msg: 'sendFailToOperator: '+err.message});
 					}
-					var dirResPcs = response.directResponse.split(',');
 					if(dirResPcs[3] == 'This transaction has been approved.') {
 						return res.json({success: true, msg: 'complete'});
 					} else {

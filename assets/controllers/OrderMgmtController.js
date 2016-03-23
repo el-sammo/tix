@@ -9,18 +9,19 @@
 		'$q', '$scope', '$modalInstance', '$http', '$rootScope', '$timeout',
 		'$window', 'customerMgmt', 'clientConfig', 'args', 'entityMgmt',
 		'reservationMgmt', 'signupPrompter', 'layoutMgmt',
-		'payMethodMgmt'
+		'payMethodMgmt', 'orderMgmt'
 	];
 
 	function controller(
 		$q, $scope, $modalInstance, $http, $rootScope, $timeout,
 		$window, customerMgmt, clientConfig, args, entityMgmt,
 		reservationMgmt, signupPrompter, layoutMgmt,
-		payMethodMgmt
+		payMethodMgmt, orderMgmt
 	) {
 
 		$scope.showProcessing = false;
 		$scope.preventClick = false;
+		$scope.getMore = false;
 
 		var getSessionPromise = customerMgmt.getSession();
 		getSessionPromise.then(function(sessionData) {
@@ -29,17 +30,21 @@
 				var getCustomerPromise = customerMgmt.getCustomer(sessionData.customerId);
 				getCustomerPromise.then(function(customer) {
 					var foundCustomer = angular.copy(customer);
-					var paymentMethods = foundCustomer.paymentMethods || [];
-			
-					paymentMethods.forEach(function(payMethod) {
-						payMethod.lastFour = redactCC(payMethod.lastFour);
-					});
-			
-					paymentMethods.push({id: 'newCard', lastFour: 'New Credit Card'});
-			
-					$scope.checkoutPaymentMethods = paymentMethods;
-		
 					$scope.customer = foundCustomer;
+					if(customer.fName && customer.lName && customer.phone) {
+						var paymentMethods = foundCustomer.paymentMethods || [];
+				
+						paymentMethods.forEach(function(payMethod) {
+							payMethod.lastFour = redactCC(payMethod.lastFour);
+						});
+				
+						paymentMethods.push({id: 'newCard', lastFour: 'New Credit Card'});
+				
+						$scope.checkoutPaymentMethods = paymentMethods;
+			
+					} else {
+						$scope.getMore = true;
+					}
 				});
 			} else {
 				$modalInstance.dismiss('done');
@@ -130,6 +135,23 @@ console.log('$scope.showTerms() called');
 		
 		$scope.orderCompleted = false;
 
+		$scope.addBasics = function() {
+			var updateCustomerPromise = customerMgmt.updateCustomer($scope.customer);
+			updateCustomerPromise.then(function(response) {
+				$modalInstance.dismiss('done');
+				$scope.getMore = false;
+				orderMgmt.reserve(
+					$scope.poolId,
+					$scope.entityId,
+					$scope.quantity,
+					$scope.total,
+					$scope.entityName,
+					$scope.eOds,
+					$scope.eeCount
+				);
+			});
+		}
+
 		$scope.addThisReservation = function() {
 			var cost = ($scope.total / $scope.quantity).toFixed(2);
 
@@ -149,6 +171,10 @@ console.log('$scope.showTerms() called');
 
 			var createReservationPromise = reservationMgmt.createReservation(reservation);
 			createReservationPromise.then(function(response) {
+console.log(' ');				
+console.log('response:');				
+console.log(response);				
+console.log(' ');				
 				$scope.showProcessing = true;
 				$scope.preventClick = true;
 				// this is a hack - we can do better
