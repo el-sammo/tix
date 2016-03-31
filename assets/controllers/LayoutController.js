@@ -35,6 +35,10 @@
 			$window.location.href = location.origin + "/app/tos";
 		}
 
+		$scope.contact = function() {
+			$window.location.href = location.origin + "/app/contact";
+		}
+
 		var sessionPromise = customerMgmt.getSession();
 		sessionPromise.then(function(sessionData) {
 			if(sessionData.customerId) {

@@ -50,6 +50,16 @@
 
 
 		///
+		// Contact
+		///
+
+		$routeProvider.when('/contact', {
+			controller: 'ContactController',
+			templateUrl: '/templates/contact.html'
+		});
+
+
+		///
 		// Home
 		///
 
