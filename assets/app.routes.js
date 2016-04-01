@@ -50,12 +50,42 @@
 
 
 		///
+		// Contact
+		///
+
+		$routeProvider.when('/contact', {
+			controller: 'ContactController',
+			templateUrl: '/templates/contact.html'
+		});
+
+
+		///
 		// Home
 		///
 
 		$routeProvider.when('/', {
 			controller: 'HomeController',
 			templateUrl: '/templates/home.html'
+		});
+
+
+		///
+		// Reservation
+		///
+
+		$routeProvider.when('/reservation/:id', {
+			controller: 'ReservationDetailsController',
+			templateUrl: '/templates/reservationDetails.html'
+		});
+
+
+		///
+		// TOS
+		///
+
+		$routeProvider.when('/tos', {
+			controller: 'TosController',
+			templateUrl: '/templates/tos.html'
 		});
 
 

@@ -38,6 +38,13 @@
 					controller: 'SignUpController'
 				});
 			},
+			welcome: function() {
+				$modal.open({
+					templateUrl: '/templates/welcome.html',
+					backdrop: true,
+//					controller: 'WelcomeController'
+				});
+			},
 			feedback: function() {
 				$modal.open({
 					templateUrl: '/templates/feedback.html',

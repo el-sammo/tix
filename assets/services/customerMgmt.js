@@ -103,6 +103,23 @@
 					console.error(err);
 					$q.reject(err);
 				});
+			},
+
+			setWelcomed: function(sessionData) {
+				sessionData.welcomed = true;
+				var url = '/customers/welcomed/' +sessionData.sid;
+				return $http.put(url, sessionData).success(
+					function(data, status, headers, config) {
+						if(status >= 400) {
+							return $q.reject(data);
+						}
+						return data;
+					}
+				).catch(function(err) {
+					console.log('PUT ' + url + ': ajax failed');
+					console.error(err);
+					return $q.reject(err);
+				});
 			}
 
 			// TODO - Get customer by username

@@ -29,6 +29,14 @@
 					}
 					layoutMgmt.signUp();
 				});
+			},
+
+			welcome: function() {
+				customerMgmt.getSession().then(function(sessionData) {
+					customerMgmt.setWelcomed(sessionData).then(function(welcomeData) {
+						layoutMgmt.welcome();
+					});
+				});
 			}
 		};
 		return service;

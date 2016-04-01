@@ -13,17 +13,31 @@
 	controller.$inject = [
 		'navMgr', 'pod', '$scope', '$window',
 		'$http', '$routeParams', '$modal', 'layoutMgmt',
-		'$rootScope', 'hoursMgr', 'customerMgmt'
+		'$rootScope', 'customerMgmt', 'championshipMgmt',
+		'signupPrompter'
 	];
 
 	function controller(
 		navMgr, pod, $scope, $window,
 		$http, $routeParams, $modal, layoutMgmt,
-		$rootScope, hoursMgr, customerMgmt
+		$rootScope, customerMgmt, championshipMgmt,
+		signupPrompter
 	) {
 
 		$scope.showLogout = false;
 		$scope.accessAccount = false;
+
+		$scope.welcome = function() {
+			signupPrompter.welcome();
+		}
+
+		$scope.tos = function() {
+			$window.location.href = location.origin + "/app/tos";
+		}
+
+		$scope.contact = function() {
+			$window.location.href = location.origin + "/app/contact";
+		}
 
 		var sessionPromise = customerMgmt.getSession();
 		sessionPromise.then(function(sessionData) {
@@ -37,11 +51,31 @@
 				$window.location.href = location.origin + "/app/account";
 			}
 
+			$scope.showChampionship = function(id) {
+				$window.location.href = location.origin + "/app/championship/" +id;
+			}
+
 			$scope.logIn = layoutMgmt.logIn;
 			$scope.logOut = layoutMgmt.logOut;
 			$scope.signUp = layoutMgmt.signUp;
 			$scope.feedback = layoutMgmt.feedback;
+
+			var currentChampionshipsPromise = championshipMgmt.getCurrentChampionships();
+			currentChampionshipsPromise.then(function(championshipsData) {
+				var leagues = [];
+				championshipsData.forEach(function(championship) {
+					leagues.push({
+						id: championship.id,
+						league: championship.league
+					});
+				});
+				$scope.leagues = leagues;
+			});
 		});
+
+		function capitalizeFirstLetter(string) {
+			return string.charAt(0).toUpperCase() + string.slice(1);
+		}
 
 		$rootScope.$on('customerLoggedIn', function(evt, args) {
 			$scope.showLogout = true;

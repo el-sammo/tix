@@ -155,15 +155,11 @@ function sendMail(email, subject, template, data) {
 			to: email,
 			subject: subject,
 			text: (
-				'Thanks for checking out Tickets Tycoon, '+data.username+'.  We\'re glad you found us!  ' +
-				'How about a little discount when you reserve your first ticket(s)? Just enter ' +
-				'promo code \'signup-'+data.username+'\' when you make your reservation at ticketstycoon.com!'
+				'Thanks for checking out Tickets Tycoon, '+data.username+'.  We\'re glad you found us!'
 			),
 			html: (
 				'Thanks for joining <b>Tickets Tycoon</b>, '+data.username+'.  We\'re glad you ' +
-				'found us!<br/>How about a little discount when you reserve your first ' +
-				'ticket(s)? Just enter promo code <b>\'signup-'+data.username+'\'</b> when you make your ' +
-				'reservation at <a href="ticketstycoon.com">ticketstycoon.com</a>!'
+				'found us!'
 			),
 		};
 	}

@@ -64,12 +64,14 @@
 							var eeCount = pool.eligibleEntities.length;
 	
 							pool.eligibleEntities.forEach(function(entity) {
+								var expectedOdds = entity.expectedOdds;
 	
 								var getCostByPEPromise = reservationMgmt.getCostByPE(poolId +'-p&e-'+ entity.entityId +'-p&e-'+ entity.expectedOdds +'-p&e-'+ eeCount);
 								getCostByPEPromise.then(function(entityData) {
 	
 									entityData.doubleCost = (entityData.nextCost * 2.02).toFixed(2);
 									entityData.quadrupleCost = (entityData.nextCost * 4.04).toFixed(2);
+									entityData.nextCost = entityData.nextCost.toFixed(2);
 	
 									var getEntityColorsPromise = entityMgmt.getColorsByEntityId(entityData.entityId);
 									getEntityColorsPromise.then(function(entityColors) {
@@ -85,6 +87,9 @@
 										if(entityColors.color3) {
 											entityData.color3 = entityColors.color3;
 										}
+
+										entityData.eeCount = eeCount;
+										entityData.eOds = expectedOdds;
 	
 										thisPoolData.entities.push(entityData);
 	
