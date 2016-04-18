@@ -158,6 +158,27 @@ footer {
 	cursor: pointer;
 }
 
+.navbar.navbar-fixed-top {
+	background-color: black;
+	min-height: 20px!important;
+}
+
+.navbar.navbar-fixed-top .container {
+	text-align: center;
+}
+
+.navbar.navbar-fixed-top .footerLink {
+	margin-right: 20px;
+	color: #FFF;
+	font-size: 12pt;
+	text-align: left;
+	line-height: 20pt;
+	font-weight: 600;
+	font-style: normal;
+	text-decoration: none!important;
+	cursor: pointer;
+}
+
 td {
 	vertical-align: middle!important;
 }
@@ -172,6 +193,12 @@ td {
 	position: relative;
 	top: -4px;
 	margin-left: 4px;
+}
+
+.sunburst {
+	background-image: url("images/sunburst.png");
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
 
 .collageMain {
@@ -368,6 +395,12 @@ td {
 	z-index: 100;
 }
 
+.sslContainer {
+}
+
+.copyright {
+}
+
 .collageMain .row {
 	margin-right: 0px;
 	margin-left: 0px;
@@ -519,8 +552,6 @@ td {
 }
 
 #homeMain {
-	top: -20px;
-	background-color: #fff;
 	position: relative;
 }
 
@@ -533,12 +564,9 @@ td {
 	padding-top: 4px;
 	padding-left: 12px;
 	padding-right: 12px;
-	padding-bottom: 24px;
 }
 
 #championshipViewMain {
-	top: -20px;
-	background-color: #fff;
 	position: relative;
 }
 

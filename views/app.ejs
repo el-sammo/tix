@@ -1,18 +1,51 @@
-<div ng-cloak ng-controller="LayoutController">
+<div class="sunburst" ng-cloak ng-controller="LayoutController">
 	<!-- BIG Navbar -->
-	<nav id="fms-headbar" class="navbar">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-2 col-md-offset-5">
-					<a href="/" style="text-decoration: none;">
-						<div class="headLogo">
-						</div>
-					</a>
-				</div>
-			</div>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<span class="footerLink" ng-click="showChampionship(league.id)" ng-repeat="league in leagues" track by $index>{{league.league}}</span>
+			<span ng-show="accessAccount" class="footerLink" ng-click="showAccount()">My Account</span>
+			<span ng-show='showLogout' class="footerLink" ng-click="logOut()">Log Out</span>
+			<span class="footerLink" ng-click="welcome()">How it Works</span>
+			<span class="footerLink" ng-click="contact()">Contact Us</span>
+			<span ng-show='!showLogout && !accessAccount' class="footerLink" ng-click="logIn()">Log In</span>
+			<iframe 
+				src="
+					//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2F1ticketstycoon&amp;
+					width&amp;
+					layout=button_count&amp;
+					action=like&amp;
+					show_faces=true&amp;
+					share=true&amp;
+					height=21&amp;
+					appId=310913685599001
+				"
+				scrolling="no"
+				frameborder="0"
+				style="
+					top: 4px;
+					border: none; 
+					overflow: hidden; 
+					height: 21px;
+					position: relative;
+				"
+				allowTransparency="true"
+			>
+			</iframe>
 		</div>
 	</nav>
 	<!-- /BIG Navbar -->
+
+	<br/>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<a href="/" style="text-decoration: none;">
+				<div class="headLogo">
+				</div>
+			</a>
+		</div>
+	</div>
+	<br/>
+
 
 	<!-- Small Navbar -->
 	<nav id="fms-headbar"
@@ -60,7 +93,6 @@
 	</ul>
 	<!-- /Small Navbar -->
 </div>
-
 <div ng-controller="MessageController" id="fms-messenger" ng-cloak>
   <alert type="{{alertType}}" ng-show="userMessage" close="close()">
     <strong ng-show="title">{{title}}&nbsp;</strong>
@@ -74,17 +106,47 @@
   </div>
 </div>
 
-<nav class="navbar navbar-default navbar-fixed-bottom" ng-cloak ng-controller="LayoutController">
-	<div class="container">
-		<span class="footerLink" ng-click="showChampionship(league.id)" ng-repeat="league in leagues" track by $index>{{league.league}}</span>
-		<span ng-show="accessAccount" class="footerLink" ng-click="showAccount()">My Account</span>
-		<span ng-show='showLogout' class="footerLink" ng-click="logOut()">Log Out</span>
-		<span class="footerLink" ng-click="welcome()">How it Works</span>
-		<span class="footerLink" ng-click="contact()">Contact Us</span>
-		<span class="footerLink" ng-click="tos()">Terms of Service</span>
-		<span ng-show='!showLogout && !accessAccount' class="footerLink" ng-click="logIn()">Log In</span>
+<div class="sslContainer" ng-cloak ng-controller="LayoutController">
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
 	</div>
-</nav>
+	<div class="row">
+		<div 
+			class="col-md-2 col-md-offset-5"
+			title="CLICK TO VERIFY: This site uses a GlobalSign SSL Certificate to secure your personal information."
+		>
+			<span 
+				id="ss_img_wrapper_gmogs_image_125-50_en_black"
+			>
+				<a 
+					href="https://www.globalsign.com/" 
+					target=_blank 
+					title="GlobalSign Site Seal" 
+					rel="nofollow"
+				>
+					<img 
+						alt="SSL" 
+						border=0 
+						id="ss_img" 
+						src="//seal.globalsign.com/SiteSeal/images/gs_noscript_125-50_en.gif"
+					>
+				</a>
+			</span>
+			<script 
+				type="text/javascript" 
+				src="//seal.globalsign.com/SiteSeal/gmogs_image_125-50_en_black.js"
+			>
+			</script>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<span ng-click="tos()">Terms of Service</span> | <span>Copyright 2014-2016, Tickets Tycoon, Inc.</span>
+		</div>
+	</div>
+</div>
 
 <!-- Hack for ensuring event-based services are instantiated -->
 <div ng-controller="LoadServices" style="display:none;" aria-hidden="true"></div>

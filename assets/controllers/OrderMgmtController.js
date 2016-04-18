@@ -66,7 +66,8 @@
 
 		if(args.total) {
 			$scope.total = args.total;
-		}
+			$scope.currentTotal = args.total;
+		} 
 
 		if(args.entityName) {
 			$scope.entityName = args.entityName;
