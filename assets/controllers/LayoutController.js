@@ -14,15 +14,31 @@
 		'navMgr', 'pod', '$scope', '$window',
 		'$http', '$routeParams', '$modal', 'layoutMgmt',
 		'$rootScope', 'customerMgmt', 'championshipMgmt',
-		'signupPrompter'
+		'signupPrompter', 'deviceMgr'
 	];
 
 	function controller(
 		navMgr, pod, $scope, $window,
 		$http, $routeParams, $modal, layoutMgmt,
 		$rootScope, customerMgmt, championshipMgmt,
-		signupPrompter
+		signupPrompter, deviceMgr
 	) {
+
+		if(deviceMgr.isBigScreen()) {
+			$scope.bigScreen = true;
+		} else {
+			$scope.bigScreen = false;
+		}
+
+		$scope.showMenu = false;
+
+		$scope.menuClicked = function(forceValue) {
+			if(! _.isUndefined(forceValue)) {
+				$scope.showMenu = forceValue;
+				return;
+			}
+			$scope.showMenu = !$scope.showMenu;
+		}
 
 		$scope.showLogout = false;
 		$scope.accessAccount = false;

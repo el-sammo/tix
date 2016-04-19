@@ -1,8 +1,11 @@
 <div class="col-md-12">
 	<div class="row" id="homeMain">
 		<div class="col-md-12">
-			<div class="row" id="homeHead">
+			<div class="row" id="homeHead" ng-show="bigScreen">
 				<h1>Current Hot Ticket Reservations</h1>
+			</div>
+			<div class="row" id="homeHead" ng-show="!bigScreen">
+				<h3>Hot Ticket Reservations</h3>
 			</div>
 			<div class="row" id="homeBody">
 				<div class="col-md-12">
@@ -15,7 +18,7 @@
 								<div class="col-md-11 col-md-offset-1 greyBg">
 									<div class="row">
 										<div class="col-md-12">
-											<span class="hotBoxHeading">
+											<span class="hotBoxHeading" ng-show="bigScreen">
 												<a 
 													href="/app/championship/{{row[0].id}}" 
 													style="color: white; text-decoration: none;"
@@ -23,9 +26,17 @@
 													{{row[0].tagline}}
 												</a>
 											</span>
+											<span class="hotBoxHeading" ng-show="!bigScreen">
+												<a 
+													href="/app/championship/{{row[0].id}}" 
+													style="color: white; text-decoration: none;"
+												>
+													{{row[0].league}}
+												</a>
+											</span>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row" ng-show="bigScreen">
 										<div class="col-md-4">
 											<span class="hotBoxSubHeading">
 												<a 
@@ -47,8 +58,10 @@
 											</span>
 										</div>
 									</div>
-									<br/>
-									<br/>
+									<div class="row" ng-show="bigScreen">
+										<br/>
+										<br/>
+									</div>
 									<div class="row">
 										<div class="col-md-12">
 											<div class="row">

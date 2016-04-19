@@ -11,13 +11,15 @@
 	controller.$inject = [
 		'$scope', '$http', '$routeParams', '$rootScope', '$window', 
 		'signupPrompter', 'customerMgmt', 'championshipMgmt',
-		'poolMgmt', 'reservationMgmt', 'entityMgmt', 'orderMgmt'
+		'poolMgmt', 'reservationMgmt', 'entityMgmt', 'orderMgmt',
+		'deviceMgr'
 	];
 
 	function controller(
 		$scope, $http, $routeParams, $rootScope, $window,
 		signupPrompter, customerMgmt, championshipMgmt,
-		poolMgmt, reservationMgmt, entityMgmt, orderMgmt
+		poolMgmt, reservationMgmt, entityMgmt, orderMgmt,
+		deviceMgr
 	) {
 
 		// listener for customer reserving
@@ -26,6 +28,12 @@
 		$rootScope.$on('newReservation', function(evt, args) {
 			$window.location.reload();
 		})
+
+		if(deviceMgr.isBigScreen()) {
+			$scope.bigScreen = true;
+		} else {
+			$scope.bigScreen = false;
+		}
 
 		var getSessionPromise = customerMgmt.getSession();
 		getSessionPromise.then(function(sessionData) {
@@ -111,6 +119,9 @@
 												firstCompare = false;
 											}
 											poolHotReservationData.hotReservations.sort(compare);
+											if(! deviceMgr.isBigScreen()) {
+												poolHotReservationData.hotReservations = poolHotReservationData.hotReservations.slice(0,4);
+											}
 										});
 									});
 								}
