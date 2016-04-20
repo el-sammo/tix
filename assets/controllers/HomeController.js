@@ -56,6 +56,7 @@
 						name: championship.name,
 						activity: championship.activity,
 						tagline: championship.tagline,
+						league: championship.league,
 						date: championship.date,
 						location: championship.location,
 						pools: [],

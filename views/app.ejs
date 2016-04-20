@@ -35,11 +35,18 @@
 	</nav>
 	<!-- /BIG Navbar -->
 
-	<div class="row" ng-show="bigScreen">
+	<div class="row sunburst" ng-show="bigScreen">
 		<br/>
 		<br/>
 		<div class="col-md-2 col-md-offset-5">
-			<a href="/" style="text-decoration: none;">
+			<a 
+				href="/" 
+				style="
+					top: -6px; 
+					text-decoration: none; 
+					position: relative;
+				"
+			>
 				<div class="headLogo">
 				</div>
 			</a>
@@ -64,7 +71,7 @@
 						<div 
 							class="fms-brand" 
 							style="
-								top: -13px; 
+								top: -14px; 
 								margin-right: 18px; 
 								position: relative;
 							"
@@ -83,7 +90,7 @@
 							ng-click="menuClicked()" 
 							class="pull-right" 
 							style="
-								top: -17px; 
+								top: -18px; 
 								margin-right: 24px; 
 								position: relative;
 							"
