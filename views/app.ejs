@@ -1,7 +1,7 @@
 <div ng-cloak ng-controller="LayoutController">
 	<!-- BIG Navbar -->
 	<nav id="fms-headbar" class="navbar navbar-default navbar-fixed-top visible-lg-inline">
-		<div class="container-fluid">
+		<div class="container-fluid" style="text-align: center;">
 			<span class="footerLink" ng-click="showChampionship(league.id)" ng-repeat="league in leagues" track by $index>{{league.league}}</span>
 			<span ng-show="accessAccount" class="footerLink" ng-click="showAccount()">My Account</span>
 			<span ng-show='showLogout' class="footerLink" ng-click="logOut()">Log Out</span>
@@ -27,6 +27,7 @@
 					overflow: hidden; 
 					height: 21px;
 					position: relative;
+					width: 130px;
 				"
 				allowTransparency="true"
 			>
@@ -95,7 +96,7 @@
 								position: relative;
 							"
 						>
-							<i class="fa fa-bars fa-lg"></i>
+							<i class="fa fa-bars fa-lg"><span style="top: -1px; position: relative;"> Menu</span></i>
 						</a>
 					</li>
 				</ul>
@@ -109,7 +110,11 @@
 	-->
 	<ul ng-show="showMenu" 
 		class="list-group visible-md-inline visible-sm-inline visible-xs-inline"
+		style="top: 18px; position: relative;"
 	>
+		<li style="background-color: grey">
+			<span>&nbsp;</span>
+		</li>
 		<li class="list-group-item" ng-repeat="league in leagues" track by $index>
 			<span class="managementLink" ng-click="showChampionship(league.id)">{{league.league}}</span><br/>
 		</li>

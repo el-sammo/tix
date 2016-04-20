@@ -11,13 +11,15 @@
 	controller.$inject = [
 		'$scope', '$http', '$routeParams', '$rootScope', '$timeout',
 		'$window', 'signupPrompter', 'customerMgmt', 'championshipMgmt',
-		'poolMgmt', 'reservationMgmt', 'entityMgmt', 'orderMgmt'
+		'poolMgmt', 'reservationMgmt', 'entityMgmt', 'orderMgmt',
+		'deviceMgr'
 	];
 
 	function controller(
 		$scope, $http, $routeParams, $rootScope, $timeout,
 		$window, signupPrompter, customerMgmt, championshipMgmt,
-		poolMgmt, reservationMgmt, entityMgmt, orderMgmt
+		poolMgmt, reservationMgmt, entityMgmt, orderMgmt,
+		deviceMgr
 	) {
 
 		// listener for customer reserving
@@ -26,6 +28,17 @@
 		$rootScope.$on('newReservation', function(evt, args) {
 			$window.location.reload();
 		})
+
+		if(deviceMgr.isBigScreen()) {
+			$scope.bigScreen = true;
+		} else {
+			$scope.bigScreen = false;
+		}
+
+		$scope.makeInt = function(num) {
+			var numPcs = num.split(".");
+			return numPcs[0];
+		}
 
 		$scope.poolData = [];
 
@@ -70,8 +83,11 @@
 								getCostByPEPromise.then(function(entityData) {
 	
 									entityData.doubleCost = (entityData.nextCost * 2.02).toFixed(2);
+									entityData.doubleCostInt = $scope.makeInt(entityData.doubleCost);
 									entityData.quadrupleCost = (entityData.nextCost * 4.04).toFixed(2);
+									entityData.quadrupleCostInt = $scope.makeInt(entityData.quadrupleCost);
 									entityData.nextCost = entityData.nextCost.toFixed(2);
+									entityData.nextCostInt = $scope.makeInt(entityData.nextCost);
 	
 									var getEntityColorsPromise = entityMgmt.getColorsByEntityId(entityData.entityId);
 									getEntityColorsPromise.then(function(entityColors) {
