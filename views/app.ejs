@@ -142,7 +142,10 @@
 		<li class="list-group-item">
 			<span class="managementLink" ng-click="contact()">Contact Us</span><br/>
 		</li>
-		<li class="list-group-item">
+		<li class="list-group-item" ng-show="!accessAccount">
+			<span class="managementLink" ng-click="logIn()">Log In</span><br/>
+		</li>
+		<li class="list-group-item" ng-show="accessAccount">
 			<span class="managementLink" ng-click="logOut()">Log Out</span><br/>
 		</li>
 	</ul>

@@ -35,6 +35,24 @@
 			}
 
 			var customerId = sessionData.customerId;
+
+			$scope.testCharge = function(paymentMethodId) {
+console.log('$scope.testCharge() called with PMID: '+paymentMethodId);				
+				var testData = {
+					total: .02,
+					customerId: customerId,
+					paymentMethodId: paymentMethodId
+				}
+console.log('testData:');				
+console.log(testData);				
+
+				var createTestChargePromise = reservationMgmt.createTestCharge(testData);
+				createTestChargePromise.then(function(response) {
+console.log('response:');
+console.log(response);
+				});
+			}
+
 			customerMgmt.getCustomer(customerId).then(function(customer) {
 				$scope.customer = customer;
 				var taxExempt = '';

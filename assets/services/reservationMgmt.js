@@ -79,6 +79,21 @@
 				});
 			},
 
+			createTestCharge: function(testData) {
+				// requires total, customerId, paymentMethodId
+				var processPaymentUrl = '/checkout/processCCPayment';
+				return $http.post(processPaymentUrl, testData).success(
+					function(pccpData, status, headers, config) {
+					if(status >= 400) {
+						return $q.reject(pccpData);
+					}
+				}).catch(function(err) {
+					console.log('POST ' + processPaymentUrl + ': ajax failed');
+					console.error(err);
+					return $q.reject(err);
+				});
+			},
+
 			getReservation: function(reservationId) {
 				if(getReservationPromise) {
 					return getReservationPromise;
