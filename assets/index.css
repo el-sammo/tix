@@ -375,6 +375,18 @@ td {
 	color: #FFFFFF;
 }
 
+.hotReservation:hover {
+	color: yellow;
+}
+
+.reservationYellow:hover {
+	color: yellow;
+}
+
+.reservationBlack:hover {
+	color: black;
+}
+
 .applyLink {
 	color: red;
 	font-weight: 700;

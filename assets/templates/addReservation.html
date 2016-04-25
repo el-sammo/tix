@@ -95,7 +95,19 @@
 		<button type="button" class="btn btn-primary pull-left" ng-click="closeReservation()">
 			<i class="fa fa-reply"></i> &nbsp; Go Back
 		</button>
-		<button type="button" class="btn btn-success pull-right" ng-click="addBasics()" ng-disabled="!customer.fName || !customer.lName || !customer.phone">
+		<button 
+			type="button"
+			class="btn btn-success pull-right" 
+			ng-click="addBasics()" 
+			ng-disabled="
+				!customer.fName || 
+				!customer.lName || 
+				!customer.phone || 
+				!customer.address ||
+				!customer.city ||
+				!customer.state ||
+				!customer.zip 
+			">
 			<i class="fa fa-plus"></i> &nbsp; Continue
 		</button>
 	</div>

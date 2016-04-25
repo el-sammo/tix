@@ -31,7 +31,15 @@
 				getCustomerPromise.then(function(customer) {
 					var foundCustomer = angular.copy(customer);
 					$scope.customer = foundCustomer;
-					if(customer.fName && customer.lName && customer.phone) {
+					if(
+						customer.fName && 
+						customer.lName && 
+						customer.phone &&
+						customer.address &&
+						customer.city &&
+						customer.state &&
+						customer.zip
+					) {
 						var paymentMethods = foundCustomer.paymentMethods || [];
 				
 						paymentMethods.forEach(function(payMethod) {
