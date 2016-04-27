@@ -108,7 +108,6 @@
 											poolHotReservationData.hotReservations.push(thisHotReservation);
 
 											// reorder the "hot" reservations
-											var firstCompare = true;
 											function compare(a,b) {
 												if(parseFloat(a.cost) < parseFloat(b.cost)) {
 													return -1;
@@ -117,7 +116,6 @@
 												} else { 
 													return 0;
 												}
-												firstCompare = false;
 											}
 											poolHotReservationData.hotReservations.sort(compare);
 											if(! deviceMgr.isBigScreen()) {
