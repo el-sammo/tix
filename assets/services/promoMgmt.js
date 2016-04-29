@@ -10,11 +10,20 @@
 	];
 	
 	function service($rootScope, $http) {
+		var getPromoPromise;
+
 		var service = {
-			getPromo: function(currentDelFee, promoCode, customerId) {
-				return $http.post('/promos/getPromo', {
-					currentDelFee: currentDelFee, promoCode: promoCode, customerId: customerId
+			getPromo: function(promoCode) {
+				var url = '/promos/byName/' + promoCode;
+				getPromoPromise = $http.get(url).then(function(res) {
+					if(res.data.length > 0) {
+						return res.data[0];
+					} else {
+						return {result: 'invalid'};
+					}
 				});
+
+				return getPromoPromise;
 			}
 		}
 

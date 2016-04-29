@@ -43,10 +43,6 @@
 				$scope.customerId = $rootScope.customerId;
 			}
 
-			if(!sessionData.welcomed) {
-				signupPrompter.welcome();
-			}
-
 			var getChampionshipsPromise = championshipMgmt.getCurrentChampionships();
 			getChampionshipsPromise.then(function(championshipData) {
 				var completeData = [];

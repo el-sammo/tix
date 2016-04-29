@@ -9,19 +9,20 @@
 		'$q', '$scope', '$modalInstance', '$http', '$rootScope', '$timeout',
 		'$window', 'customerMgmt', 'clientConfig', 'args', 'entityMgmt',
 		'reservationMgmt', 'signupPrompter', 'layoutMgmt',
-		'payMethodMgmt', 'orderMgmt'
+		'payMethodMgmt', 'orderMgmt', 'promoMgmt'
 	];
 
 	function controller(
 		$q, $scope, $modalInstance, $http, $rootScope, $timeout,
 		$window, customerMgmt, clientConfig, args, entityMgmt,
 		reservationMgmt, signupPrompter, layoutMgmt,
-		payMethodMgmt, orderMgmt
+		payMethodMgmt, orderMgmt, promoMgmt
 	) {
 
 		$scope.showProcessing = false;
 		$scope.preventClick = false;
 		$scope.getMore = false;
+		$scope.validCode = true;
 
 		var getSessionPromise = customerMgmt.getSession();
 		getSessionPromise.then(function(sessionData) {
@@ -161,8 +162,36 @@ console.log('$scope.showTerms() called');
 			});
 		}
 
+		$scope.updateCurrentTotal = function() {
+			if($scope.promo) {
+				var getPromoPromise = promoMgmt.getPromo($scope.promo);
+				getPromoPromise.then(function(response) {
+					if(response.amount) {
+						$scope.currentTotal = (parseFloat($scope.total) - parseFloat(response.amount)).toFixed(2);
+					} else {
+						$scope.currentTotal = (parseFloat($scope.total)).toFixed(2);
+					}
+					if(response.result && (response.result === 'invalid' || response.result === 'expired')) {
+						$scope.validCode = false;
+						$scope.reason = response.result;
+					}
+				});
+			} else {
+				$scope.validCode = true;
+				$scope.currentTotal = (parseFloat($scope.total)).toFixed(2);
+			}
+		}
+
 		$scope.addThisReservation = function() {
-			var cost = ($scope.total / $scope.quantity).toFixed(2);
+			var cost = ($scope.currentTotal / $scope.quantity).toFixed(2);
+
+			var promo;
+
+			if($scope.promo) {
+				promo = $scope.promo;
+			} else {
+				promo = 'nopromo';
+			}
 
 			var reservation = {
 				poolId: $scope.poolId, 
@@ -175,7 +204,8 @@ console.log('$scope.showTerms() called');
 				paymentMethodId: $scope.selMethod,
 				cost: parseFloat(cost), 
 				quantity: parseInt($scope.quantity), 
-				total: parseFloat($scope.total)
+				promo: promo,
+				total: parseFloat($scope.currentTotal)
 			};
 
 			var createReservationPromise = reservationMgmt.createReservation(reservation);
