@@ -25,6 +25,16 @@
 
 
 		///
+		// About
+		///
+
+		$routeProvider.when('/about', {
+			controller: 'AboutController',
+			templateUrl: '/templates/about.html'
+		});
+
+
+		///
 		// Account
 		///
 
@@ -60,6 +70,16 @@
 
 
 		///
+		// FAQ
+		///
+
+		$routeProvider.when('/faq', {
+			controller: 'FaqController',
+			templateUrl: '/templates/faq.html'
+		});
+
+
+		///
 		// Home
 		///
 
@@ -76,6 +96,16 @@
 		$routeProvider.when('/reservation/:id', {
 			controller: 'ReservationDetailsController',
 			templateUrl: '/templates/reservationDetails.html'
+		});
+
+
+		///
+		// Story
+		///
+
+		$routeProvider.when('/story', {
+			controller: 'StoryController',
+			templateUrl: '/templates/story.html'
 		});
 
 

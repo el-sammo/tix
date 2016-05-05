@@ -4,9 +4,9 @@
 	var app = angular.module('app');
 
 	///
-	// Controllers: About
+	// Controllers: Story
 	///
-	app.controller('AboutController', controller);
+	app.controller('StoryController', controller);
 	
 	controller.$inject = [
 		'$scope', '$http', '$routeParams', '$rootScope'
