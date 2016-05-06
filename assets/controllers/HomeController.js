@@ -25,10 +25,6 @@
 		// listener for customer reserving
 		$scope.reserve = orderMgmt.reserve;
 
-		$rootScope.$on('newReservation', function(evt, args) {
-			$window.location.reload();
-		})
-
 		if(deviceMgr.isBigScreen()) {
 			$scope.bigScreen = true;
 		} else {
@@ -148,6 +144,14 @@
 
 		$scope.showTab = function(id) {
 			$scope.tabShow = id;
+		}
+
+		$scope.showChampionship = function(id) {
+			$window.location.href = location.origin + "/app/championship/" + id;
+		}
+
+		$scope.showReservation = function(id) {
+			$window.location.href = location.origin + "/app/championship/" + id;
 		}
 
 	}

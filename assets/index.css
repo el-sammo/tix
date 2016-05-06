@@ -337,6 +337,19 @@ td {
 	position: relative;
 }
 
+.championshipContentGreyBg {
+	left: 10%;
+	width: 80%;
+	min-height: 80px;
+	max-height: 406px;
+	margin-left: 4px;
+	padding-bottom: 12px;
+	border: 1px solid black;
+	border-radius: 12px;
+	background: rgba(54, 25, 25, .5);
+	position: relative;
+}
+
 .greyBgChamp {
 	top: 10px;
 	border: 1px solid;
@@ -395,7 +408,9 @@ td {
 }
 
 .reservationYellow:hover {
-	color: yellow;
+	color: yellow!important;
+	text-decoration: none!important;
+	cursor: pointer;
 }
 
 .reservationBlack:hover {
@@ -666,24 +681,6 @@ td {
 	overflow-x: hidden;
 }
 
-#accountMain {
-	/* top: 164px; */
-	background-color: #fff;
-	position: relative;
-}
-
-#accountHead {
-	text-align: center;
-	border-bottom: 1px solid #C0C2FF;
-}
-
-#accountBody {
-	padding-top: 4px;
-	padding-left: 12px;
-	padding-right: 12px;
-	padding-bottom: 24px;
-}
-
 #homeMain {
 	position: relative;
 }
@@ -847,6 +844,10 @@ td {
 .orderHistoryLink {
 }
 
+.orderHistoryLinkWhite {
+	color: #FFFFFF!important;
+}
+
 .logOutLink {
 	cursor: pointer;
 }
@@ -872,28 +873,72 @@ td {
 	cursor: pointer;
 }
 
-#historyHead {
+.managementLinkWhite {
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+#accountMain {
+}
+
+#accountHead {
+	color: #FFFFFF;
 	text-align: center;
-	border-bottom: 1px solid #C0C2FF;
+	border-bottom: 1px solid #FFFFFF;
+}
+
+#accountBody {
+	color: #FFFFFF;
+	padding-top: 4px;
+	padding-left: 12px;
+	padding-right: 12px;
+	padding-bottom: 24px;
+}
+
+.accountBody {
+	color: #FFFFFF;
+}
+
+#historyHead {
+	color: #FFFFFF;
+	text-align: center;
+	border-bottom: 1px solid #FFFFFF;
 }
 
 #historyBody {
+	color: #FFFFFF;
 	padding-top: 4px;
 	padding-left: 12px;
 	padding-right: 12px;
 	padding-bottom: 24px;
+}
+
+.historyBody {
+	color: #FFFFFF;
 }
 
 #managementHead {
+	color: #FFFFFF;
 	text-align: center;
-	border-bottom: 1px solid #C0C2FF;
+	border-bottom: 1px solid #FFFFFF;
 }
 
 #managementBody {
+	color: #FFFFFF;
 	padding-top: 4px;
 	padding-left: 12px;
 	padding-right: 12px;
 	padding-bottom: 24px;
+}
+
+.managementBody {
+	color: #FFFFFF;
+}
+
+.accountPayMethsHead {
+	font-size: 16px;
+	font-weight: 500;
+	color: #FFFFFF;
 }
 
 .menuHeader {

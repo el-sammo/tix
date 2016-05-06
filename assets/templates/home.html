@@ -14,7 +14,7 @@
 							track by $index
 						>
 							<span 
-								class="sportTabHeading" 
+								class="sportTabHeading reservationYellow" 
 								ng-click="showTab(championship.id)"
 							>
 								{{championship.league}}
@@ -48,16 +48,38 @@
 										ng-repeat="reservation in pool.hotReservations"
 									>
 										<div class="col-md-8">
-											<span class="homeWidgetReservationName">
+											<span 
+												class="homeWidgetReservationName reservationYellow" 
+												style="cursor: pointer;"
+												ng-click="showReservation(championship.id+'-'+reservation.id)"
+											>
 												{{reservation.name}} {{reservation.mascot}}
 											</span>
 										</div>
-										<div class="col-md-4">
-											<span class="homeWidgetReservationCost">
+										<div 
+											class="col-md-4" style="text-align: right;" 
+										>
+											<span 
+												class="homeWidgetReservationCost reservationYellow"
+												style="cursor: pointer;"
+												ng-click="showReservation(championship.id+'-'+reservation.id)"
+											>
 												${{reservation.cost}}
 											</span>
 										</div>
 									</div>
+								</div>
+							</div>
+							<br/>
+							<div class="row">
+								<div class="col-md-12" style="text-align: center;">
+									<span 
+										class="homeWidgetPoolHeading reservationYellow" 
+										style="cursor: pointer;"
+										ng-click="showChampionship(championship.id)"
+									>
+										Click here to view all {{championship.league}} reservations
+									</span>
 								</div>
 							</div>
 						</div>
