@@ -1,0 +1,61 @@
+<ul id="fms-modules-grid" ng-cloak>
+	<div class="row" style="padding-bottom: 80px">
+		<div class="col-md-12">
+			<div class="row" id="aboutMain">
+				<div class="col-md-6 col-md-offset-3 contentGreyBg">
+					<div class="row" id="aboutStoryHead">
+						<span class="aboutHead">
+							Frequently Asked Questions (FAQ)
+						</span>
+					</div>
+					<div class="row" id="aboutStoryBody" manage-height>
+						<div class="col-md-6">
+							<span class="linkBold pull-left" ng-click="setShow('resRef')">
+								Is My Reservation Fee Refundable? 
+							</span>
+							<br/>
+							<span class="linkBold pull-left" ng-click="setShow('selSeat')">
+								Do I Choose My Seat Location?
+							</span>
+							<br/>
+							<span class="linkBold pull-left" ng-click="setShow('waitSet')">
+								How Long Can I Wait To Reserve?
+							</span>
+							<br/>
+							<span class="linkBold pull-left" ng-click="setShow('payFee')">
+								How Do I Pay My Reservation Fee?
+							</span>
+							<br/>
+							<span class="linkBold pull-left" ng-click="setShow('sourceTix')">
+								How Do You Get The Tickets?
+							</span>
+							<span class="linkBold pull-left" ng-click="setShow('siteSafe')">
+								Is This Site Secure?
+							</span>
+						</div>
+						<div class="col-md-6">
+							<div id="resRef" class="faqAnswer" ng-show="showWhat === 'resRef'">
+								Your reservation fee is not refundable, but the cost to purchase the actual ticket ($1) is refundable.
+							</div>
+							<div id="selSeat" class="faqAnswer" ng-show="showWhat === 'selSeat'">
+								You don't get to choose your seat at this time. We are, however, working toward this goal.
+							</div>
+							<div id="waitSet" class="faqAnswer" ng-show="showWhat === 'waitSet'">
+								You can wait until after the opening round of the tournament/playoffs, but the reservation fee will increase throughout the season. It's best to lock in the least expensive reservation fee as soon as possible.
+							</div>
+							<div id="payFee" class="faqAnswer" ng-show="showWhat === 'payFee'">
+								We accept all major credit/debit cards, including Visa, MasterCard, American Express, etc.
+							</div>
+							<div id="sourceTix" class="faqAnswer" ng-show="showWhat === 'sourceTix'">
+								We source the championship tickets through the secondary ticket exchange markets. In the event that we are unable to source your ticket(s) for any reason, we will simply mail you a check/money order for the full face value of the ticket(s).
+							</div>
+							<div id="siteSafe" class="faqAnswer" ng-show="showWhat === 'siteSafe'">
+								This site is safe and secure. All your interactions, including credit/debit card transactions, are secured with the latest SSL security protocols. Additionally, your credit/debit card data is not stored by this site, but rather is encrypted and secured by our payment gateway, Autherize.Net - the industry leader in online payments.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+    </div>
+  </div>
+</ul>

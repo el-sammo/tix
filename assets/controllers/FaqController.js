@@ -16,6 +16,12 @@
 		$scope, $http, $routeParams, $rootScope
 	) {
 
+		$scope.showWhat = 'resRef';
+
+		$scope.setShow = function(id) {
+			$scope.showWhat = id;
+		}
+
 	}
 
 }());
