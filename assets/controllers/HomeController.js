@@ -132,8 +132,12 @@
 
 					completeData.push(championshipHotReservationsData);
 
+console.log('completeData:');
+console.log(completeData);
+
 					$scope.championshipData = completeData;
 					$scope.tabShow = completeData[0].id;
+					$scope.teamShow = completeData[0].id;
 				});
 			});
 
@@ -153,6 +157,29 @@
 		$scope.showReservation = function(id) {
 			$window.location.href = location.origin + "/app/championship/" + id;
 		}
+
+		/*
+		// Instance the tour
+		var tour = new Tour({
+			steps: [
+				{
+				element: '#'+$scope.tabShow,
+				title: "Step 1",
+				content: "Step One"
+				},
+				{
+				element: '#'+$scope.tabShow,
+				title: "Step 2",
+				content: "Step Two"
+				}
+		]});
+
+		// Initialize the tour
+		tour.init();
+
+		// Start the tour
+		tour.start();
+		*/
 
 	}
 

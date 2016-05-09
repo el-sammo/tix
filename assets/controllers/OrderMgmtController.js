@@ -167,6 +167,7 @@ console.log('$scope.showTerms() called');
 				var getPromoPromise = promoMgmt.getPromo($scope.promo);
 				getPromoPromise.then(function(response) {
 					if(response.amount) {
+						$scope.validCode = true;
 						$scope.currentTotal = (parseFloat($scope.total) - parseFloat(response.amount)).toFixed(2);
 					} else {
 						$scope.currentTotal = (parseFloat($scope.total)).toFixed(2);

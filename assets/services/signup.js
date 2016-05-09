@@ -37,6 +37,10 @@
 						layoutMgmt.welcome();
 					});
 				});
+			},
+
+			disclosure: function() {
+				layoutMgmt.disclosure();
 			}
 		};
 		return service;

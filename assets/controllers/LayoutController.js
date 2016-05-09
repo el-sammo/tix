@@ -51,6 +51,10 @@
 			$window.location.href = location.origin + "/app/contact";
 		}
 
+		$scope.disclosure = function() {
+			signupPrompter.disclosure();
+		}
+
 		$scope.faq = function() {
 			$window.location.href = location.origin + "/app/faq";
 		}

@@ -338,10 +338,11 @@ td {
 }
 
 .championshipContentGreyBg {
+	top: 4px;
 	left: 10%;
 	width: 80%;
 	min-height: 80px;
-	max-height: 406px;
+	max-height: 420px;
 	margin-left: 4px;
 	padding-bottom: 12px;
 	border: 1px solid black;
@@ -597,6 +598,18 @@ td {
 .faqAnswer {
 	text-align: left;
 	color: #FFFFFF;
+}
+
+.faqAnswerHeading {
+	color: yellow;
+	font-size: 16px;
+	font-weight: 300;
+}
+
+.faqAnswerSmall {
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: 500;
 }
 
 .sportTabLeft {

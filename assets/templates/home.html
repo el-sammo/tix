@@ -1,4 +1,11 @@
 <div class="col-md-12">
+
+	<div tour placement="top" template-url="/templates/tour-example.html">
+		<div tour-step>
+			Test
+		</div>
+	</div>
+
 	<div class="row" id="homeMain">
 		<div 
 			class="col-md-6 col-md-offset-3 contentGreyBg"
@@ -45,6 +52,7 @@
 									<br/>
 									<div 
 										class="row" 
+										id="reservation.id"
 										ng-repeat="reservation in pool.hotReservations"
 									>
 										<div class="col-md-8">
