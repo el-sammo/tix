@@ -40,6 +40,10 @@
 			return numPcs[0];
 		}
 
+		$scope.showEntity = function(id) {
+			$scope.entityShow = id;
+		}
+
 		$scope.poolData = [];
 
 //		function refreshData() {
@@ -47,14 +51,24 @@
 			var getSessionPromise = customerMgmt.getSession();
 			getSessionPromise.then(function(sessionData) {
 
-				var getChampionshipPromise = championshipMgmt.getChampionship($routeParams.id);
+				var championshipId;
+
+				if($routeParams.id.length > 26) {
+					var rpPcs = $routeParams.id.split('-');
+					championshipId = rpPcs[0];
+					$scope.entityShow = rpPcs[1];
+				} else {
+					championshipId = $routeParams.id;
+				}
+
+				var getChampionshipPromise = championshipMgmt.getChampionship(championshipId);
 				getChampionshipPromise.then(function(championshipData) {
 
 					$scope.championshipData = championshipData;
 
 				});
 
-				var getPoolsPromise = poolMgmt.getPools($routeParams.id);
+				var getPoolsPromise = poolMgmt.getPools(championshipId);
 				getPoolsPromise.then(function(poolData) {
 
 					poolData.forEach(function(pool) {
@@ -110,6 +124,8 @@
 										if(entityColors.color3) {
 											entityData.color3 = entityColors.color3;
 										}
+
+										entityData.mascot = entityColors.mascot;
 
 										entityData.eeCount = eeCount;
 										entityData.eOds = expectedOdds;

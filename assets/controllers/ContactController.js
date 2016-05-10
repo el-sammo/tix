@@ -14,7 +14,6 @@
 
 	function controller($scope, $http, $rootScope) {
 
-
 	}
 
 }());

@@ -4,7 +4,7 @@
 	var app = angular.module('app', [
 		'ngRoute', 'ui.bootstrap', 'angularPayments',
 		'angulartics', 'angulartics.google.analytics',
-		'uiGmapgoogle-maps'
+		'uiGmapgoogle-maps', 'bm.bsTour'
 	]);
 	var $ = jQuery;
 

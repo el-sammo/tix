@@ -148,7 +148,7 @@ footer {
 
 .navbar.navbar-fixed-bottom .footerLink {
 	margin-right: 20px;
-	color: #FFF;
+	color: #FFFFFF;
 	font-size: 12pt;
 	text-align: left;
 	line-height: 20pt;
@@ -193,6 +193,18 @@ td {
 	position: relative;
 	top: -4px;
 	margin-left: 4px;
+}
+
+.footerLink {
+	margin-right: 20px;
+	color: #FFF;
+	font-size: 12pt;
+	text-align: left;
+	line-height: 20pt;
+	font-weight: 600;
+	font-style: normal;
+	text-decoration: none!important;
+	cursor: pointer;
 }
 
 .sunburst {
@@ -312,13 +324,30 @@ td {
 	border-radius: 25px;
 }
 
-.greyBg {
-	margin: 8px;
-	border: 1px solid;
-	border-radius: 25px;
+.contentGreyBg {
+	left: 25%;
+	width: 50%;
+	min-height: 80px;
+	max-height: 406px;
+	margin-left: 4px;
+	padding-bottom: 12px;
+	border: 1px solid black;
+	border-radius: 12px;
 	background: rgba(54, 25, 25, .5);
-	width: 96%;
-	left: 1%;
+	position: relative;
+}
+
+.championshipContentGreyBg {
+	top: 4px;
+	left: 10%;
+	width: 80%;
+	min-height: 80px;
+	max-height: 420px;
+	margin-left: 4px;
+	padding-bottom: 12px;
+	border: 1px solid black;
+	border-radius: 12px;
+	background: rgba(54, 25, 25, .5);
 	position: relative;
 }
 
@@ -380,7 +409,9 @@ td {
 }
 
 .reservationYellow:hover {
-	color: yellow;
+	color: yellow!important;
+	text-decoration: none!important;
+	cursor: pointer;
 }
 
 .reservationBlack:hover {
@@ -411,6 +442,36 @@ td {
 }
 
 .copyright {
+	top: 8px;
+	color: #FFFFFF;
+	position: relative;
+}
+
+.siteNavHead {
+	color: #FFFFFF;
+	font-size: 18px;
+	font-weight: 700;
+	font-style: normal;
+	text-decoration: none!important;
+	cursor: pointer;
+}
+
+.siteNavSubHead {
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: 500;
+	font-style: normal;
+	text-decoration: none!important;
+	cursor: pointer;
+}
+
+.siteNavBasic {
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: 500;
+	font-style: normal;
+	text-decoration: none!important;
+	cursor: pointer;
 }
 
 .collageMain .row {
@@ -499,14 +560,102 @@ td {
 }
 
 #aboutMain {
-	/* top: 164px; */
-	background-color: #fff;
+	top: 12px;
+	text-align: center;
 	position: relative;
-	overflow-y: auto;
-	overflow-x: hidden;
+}
+
+.aboutHead {
+	color: #FFFFFF;
+	font-size: 24px;
+	font-weight: 900;
+}
+
+.aboutSubHead {
+	color: #FFFFFF;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.aboutBasic {
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.linkBasic {
+	color: #FFFFFF;
+	text-decoration: none!important;
+	cursor: pointer;
+}
+
+.linkBold {
+	color: #FFFFFF;
+	text-decoration: none!important;
+	cursor: pointer;
+}
+
+.faqAnswer {
+	text-align: left;
+	color: #FFFFFF;
+}
+
+.faqAnswerHeading {
+	color: yellow;
+	font-size: 16px;
+	font-weight: 300;
+}
+
+.faqAnswerSmall {
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.sportTabLeft {
+	top: 4px;
+	height: 22px;
+	border: 1px solid #FFFFFF;
+	text-align: center;
+	background: rgba(54, 25, 25, .5);
+	cursor: pointer;
+}
+
+.sportTabRight {
+	top: 4px;
+	height: 22px;
+	border-right: 1px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+	text-align: center;
+	background: rgba(54, 25, 25, .5);
+	cursor: pointer;
+}
+
+.sportTabHeading {
+	top: 0px;
+	font-size: 14px;
+	color: #FFFFFF;
+	position: relative;
+}
+
+.homeWidgetPoolHeading {
+	font-size: 18px;
+	color: #FFFFFF;
+}
+
+.homeWidgetReservationName {
+	font-size: 12px;
+	color: #FFFFFF;
+}
+
+.homeWidgetReservationCost {
+	font-size: 12px;
+	color: #FFFFFF;
 }
 
 #aboutStoryHead {
+	margin: 4px;
 	text-align: center;
 	border-bottom: 1px solid #C0C2FF;
 }
@@ -543,24 +692,6 @@ td {
 	padding-right: 12px;
 	overflow-y: auto;
 	overflow-x: hidden;
-}
-
-#accountMain {
-	/* top: 164px; */
-	background-color: #fff;
-	position: relative;
-}
-
-#accountHead {
-	text-align: center;
-	border-bottom: 1px solid #C0C2FF;
-}
-
-#accountBody {
-	padding-top: 4px;
-	padding-left: 12px;
-	padding-right: 12px;
-	padding-bottom: 24px;
 }
 
 #homeMain {
@@ -726,6 +857,10 @@ td {
 .orderHistoryLink {
 }
 
+.orderHistoryLinkWhite {
+	color: #FFFFFF!important;
+}
+
 .logOutLink {
 	cursor: pointer;
 }
@@ -751,28 +886,72 @@ td {
 	cursor: pointer;
 }
 
-#historyHead {
+.managementLinkWhite {
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+#accountMain {
+}
+
+#accountHead {
+	color: #FFFFFF;
 	text-align: center;
-	border-bottom: 1px solid #C0C2FF;
+	border-bottom: 1px solid #FFFFFF;
+}
+
+#accountBody {
+	color: #FFFFFF;
+	padding-top: 4px;
+	padding-left: 12px;
+	padding-right: 12px;
+	padding-bottom: 24px;
+}
+
+.accountBody {
+	color: #FFFFFF;
+}
+
+#historyHead {
+	color: #FFFFFF;
+	text-align: center;
+	border-bottom: 1px solid #FFFFFF;
 }
 
 #historyBody {
+	color: #FFFFFF;
 	padding-top: 4px;
 	padding-left: 12px;
 	padding-right: 12px;
 	padding-bottom: 24px;
+}
+
+.historyBody {
+	color: #FFFFFF;
 }
 
 #managementHead {
+	color: #FFFFFF;
 	text-align: center;
-	border-bottom: 1px solid #C0C2FF;
+	border-bottom: 1px solid #FFFFFF;
 }
 
 #managementBody {
+	color: #FFFFFF;
 	padding-top: 4px;
 	padding-left: 12px;
 	padding-right: 12px;
 	padding-bottom: 24px;
+}
+
+.managementBody {
+	color: #FFFFFF;
+}
+
+.accountPayMethsHead {
+	font-size: 16px;
+	font-weight: 500;
+	color: #FFFFFF;
 }
 
 .menuHeader {
@@ -1167,7 +1346,7 @@ td {
 	height: 6px;
 }
 
-#fms-messenger .alert {
+#tt-messenger .alert {
 	/* width: calc(100% - 70em); */
 	border-color: #fff;
 	width: 40em;
@@ -1186,11 +1365,90 @@ td {
 	text-overflow: ellipses;
 }
 
-#fms-main-container {
+#tt-main-container {
 	margin-left: 0px;
 	width: 100%;
-	background-color: white;
-	/* height: 100%; */
+}
+
+#tt-menu {
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 50px;
+	background: rgba(54, 25, 25, .9);
+	text-align: center;
+	position: relative;
+}
+
+.menuDisplay {
+	top: 10px;
+	position: relative;
+}
+
+#tt-main {
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 430px;
+	background: rgba(54, 25, 25, .5);
+	position: relative;
+}
+
+#tt-siteNav {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: #333333;
+	position: relative;
+}
+
+#tt-footer {
+	bottom: 0px;
+	left: 0px;
+	height: 34px;
+	width: 100%;
+	background-color: #262626;
+	text-align: center;
+	position: relative;
+}
+
+.baseball_wide {
+	background-image: url("images/baseball_wide.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.basketball_wide {
+	background-image: url("images/basketball_wide.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.football_wide {
+	background-image: url("images/football_wide.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.hockey_wide {
+	background-image: url("images/hockey_wide.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.racing_wide {
+	background-image: url("images/racing_wide.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.soccer_wide {
+	background-image: url("images/soccer_wide.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
 
 #fms-modules-grid {

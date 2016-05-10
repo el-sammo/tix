@@ -16,8 +16,6 @@
 		$scope, $http, $routeParams, $rootScope
 	) {
 
-
-
 	}
 
 }());

@@ -25,15 +25,13 @@
 		// listener for customer reserving
 		$scope.reserve = orderMgmt.reserve;
 
-		$rootScope.$on('newReservation', function(evt, args) {
-			$window.location.reload();
-		})
-
 		if(deviceMgr.isBigScreen()) {
 			$scope.bigScreen = true;
 		} else {
 			$scope.bigScreen = false;
 		}
+
+		var firstDataSet = true;
 
 		var getSessionPromise = customerMgmt.getSession();
 		getSessionPromise.then(function(sessionData) {
@@ -125,24 +123,21 @@
 						})
 					});
 
+					if(firstDataSet) {
+						championshipHotReservationsData.sportTab = 'sportTabLeft';
+						firstDataSet = false;
+					} else {
+						championshipHotReservationsData.sportTab = 'sportTabRight';
+					}
+
 					completeData.push(championshipHotReservationsData);
 
-					var rowsData = [];
-					var cols = [];
+console.log('completeData:');
+console.log(completeData);
 
-					completeData.forEach(function(championship) {
-						if(cols.length == 2) {
-							rowsData.push(cols);
-							cols = [];
-							cols.push(championship);
-						} else {
-							cols.push(championship);
-						}
-					});
-					rowsData.push(cols);
-
-					$scope.rowsData = rowsData;
 					$scope.championshipData = completeData;
+					$scope.tabShow = completeData[0].id;
+					$scope.teamShow = completeData[0].id;
 				});
 			});
 
@@ -150,6 +145,41 @@
 			console.log('customerMgmt.getSession() failed');
 			console.log(err);
 		});
+
+		$scope.showTab = function(id) {
+			$scope.tabShow = id;
+		}
+
+		$scope.showChampionship = function(id) {
+			$window.location.href = location.origin + "/app/championship/" + id;
+		}
+
+		$scope.showReservation = function(id) {
+			$window.location.href = location.origin + "/app/championship/" + id;
+		}
+
+		/*
+		// Instance the tour
+		var tour = new Tour({
+			steps: [
+				{
+				element: '#'+$scope.tabShow,
+				title: "Step 1",
+				content: "Step One"
+				},
+				{
+				element: '#'+$scope.tabShow,
+				title: "Step 2",
+				content: "Step Two"
+				}
+		]});
+
+		// Initialize the tour
+		tour.init();
+
+		// Start the tour
+		tour.start();
+		*/
 
 	}
 

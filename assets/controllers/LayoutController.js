@@ -43,17 +43,50 @@
 		$scope.showLogout = false;
 		$scope.accessAccount = false;
 
-		$scope.welcome = function() {
-			signupPrompter.welcome();
+		$scope.about = function() {
+			$window.location.href = location.origin + "/app/about";
+		}
+
+		$scope.contact = function() {
+			$window.location.href = location.origin + "/app/contact";
+		}
+
+		$scope.disclosure = function() {
+			signupPrompter.disclosure();
+		}
+
+		$scope.faq = function() {
+			$window.location.href = location.origin + "/app/faq";
+		}
+
+		$scope.home = function() {
+			$window.location.href = location.origin + "/app/";
+		}
+
+		$scope.story = function() {
+			$window.location.href = location.origin + "/app/story";
 		}
 
 		$scope.tos = function() {
 			$window.location.href = location.origin + "/app/tos";
 		}
 
-		$scope.contact = function() {
-			$window.location.href = location.origin + "/app/contact";
+		$scope.welcome = function() {
+			signupPrompter.welcome();
 		}
+
+		var bgImgs = [
+			'baseball_wide',
+			'basketball_wide',
+			'football_wide',
+			'hockey_wide',
+			'racing_wide',
+			'soccer_wide'
+		];
+
+		var randImg = bgImgs[Math.floor(Math.random() * bgImgs.length)];
+
+		$scope.bgImg = randImg;
 
 		var sessionPromise = customerMgmt.getSession();
 		sessionPromise.then(function(sessionData) {

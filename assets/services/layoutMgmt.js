@@ -45,6 +45,13 @@
 //					controller: 'WelcomeController'
 				});
 			},
+			disclosure: function() {
+				$modal.open({
+					templateUrl: '/templates/disclosure.html',
+					backdrop: true,
+//					controller: 'DisclosureController'
+				});
+			},
 			feedback: function() {
 				$modal.open({
 					templateUrl: '/templates/feedback.html',
