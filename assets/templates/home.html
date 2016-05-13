@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="col-md-12" ng-show="bigScreen">
 
 	<!--
 	<div tour placement="top" template-url="/templates/tour-example.html">
@@ -83,6 +83,121 @@
 							<br/>
 							<div class="row">
 								<div class="col-md-12" style="text-align: center;">
+									<span 
+										class="homeWidgetPoolHeading reservationYellow" 
+										style="cursor: pointer;"
+										ng-click="showChampionship(championship.id)"
+									>
+										Click here to view all {{championship.league}} reservations
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="col-sm-12 col-xs-12" ng-show="!bigScreen">
+	<div class="row" id="homeMain">
+		<div 
+			class="contentGreyBgSm"
+		>
+			<div class="row">
+				<div 
+					class="col-sm-8 col-xs-8 col-sm-offset-2 col-xs-offset-2"
+					style="text-align: center;"
+				>
+					<span class="contentHeadingSm">Championship Tickets</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-10 col-xs-10 col-sm-offset-1 col-xs-offset-1">
+					<div class="row" ng-repeat="championship in championshipData">
+						<div 
+							class="col-sm-6 col-xs-6 col-sm-offset-3 col-xs-offset-3 sportTabLeftSm"
+							id="{{championship.id}}" 
+							track by $index
+						>
+							<span 
+								class="sportTabHeading reservationYellow" 
+								ng-click="showTab(championship.id)"
+							>
+								{{championship.league}}
+							</span>
+						</div>
+					</div>
+					<br/>
+					<div class="row">
+						<div 
+							class="col-sm-12 cols-xs-12"
+							ng-show="tabShow === '{{championship.id}}'"
+							id="{{championship.id}}" 
+							ng-repeat="championship in championshipData" 
+							track by $index
+						>
+							<div class="row">
+								<div 
+									class="col-sm-8 col-xs-8 col-sm-offset-2 col-xs-offset-2" 
+									style="text-align: center;"
+								>
+									<span class="contentHeadingLg">{{championship.league}}</span>
+								</div>
+							</div>
+							<br/>
+							<div class="row">
+								<div 
+									class="col-sm-6 col-xs-6" 
+									ng-repeat="pool in championship.pools"
+								>
+									<div class="row">
+										<div class="col-sm-12 col-xs-12">
+											<span class="homeWidgetPoolHeading">
+												{{pool.name}}
+											</span>
+										</div>
+									</div>
+									<br/>
+									<div 
+										class="row" 
+										id="reservation.id"
+										ng-repeat="reservation in pool.hotReservations"
+									>
+										<div 
+											class="col-sm-8 col-xs-8"
+											style="padding: 0px!important;"
+										>
+											<span 
+												class="homeWidgetReservationNameSm reservationYellow" 
+												style="cursor: pointer;"
+												ng-click="showReservation(championship.id+'-'+reservation.id)"
+											>
+												{{reservation.name}} {{reservation.mascot}}
+											</span>
+										</div>
+										<div 
+											class="col-sm-4 cols-xs-4" 
+											style="
+												text-align: right; 
+												padding-left: 8px!important;
+												padding-right: 8px!important;"
+										>
+											<span 
+												class="homeWidgetReservationCostSm reservationYellow"
+												style="cursor: pointer;"
+												ng-click="showReservation(championship.id+'-'+reservation.id)"
+											>
+												${{reservation.cost}}
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<br/>
+							<div class="row">
+								<div class="col-sm-12 cols-xs-12" style="text-align: center;">
 									<span 
 										class="homeWidgetPoolHeading reservationYellow" 
 										style="cursor: pointer;"

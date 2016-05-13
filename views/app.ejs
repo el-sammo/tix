@@ -5,7 +5,7 @@
   </alert>
 </div>
 
-<div id="tt-main-container" ng-cloak ng-controller="LayoutController">
+<div id="tt-main-container" ng-cloak ng-controller="LayoutController" ng-show="bigScreen">
   <div class="{{bgImg}}">
   	<div id="tt-menu">
   		<div class="menuDisplay">
@@ -164,6 +164,118 @@
   		</span>
   	</div>
   </div>
+</div>
+
+<div ng-cloak ng-controller="LayoutController" ng-show="!bigScreen">
+	<nav id="fms-headbar"
+		class="
+			navbar 
+			navbar-default 
+			navbar-fixed-top 
+			visible-md-inline 
+			visible-sm-inline 
+			visible-xs-inline
+		"
+	>
+		<div class="container-fluid">
+			<div>
+				<ul class="nav navbar-nav">
+					<li>
+						<div 
+							class="fms-brand" 
+							style="
+								top: -14px; 
+								margin-right: 18px; 
+								position: relative;
+							"
+						>
+							<a 
+								href="/app/"
+								style="
+									color: #fff !important;
+									weight: 700	!important;
+								"
+							>
+								Tickets Tycoon
+							</a>
+						</div>
+						<a 
+							ng-click="menuClicked()" 
+							class="pull-right" 
+							style="
+								top: -18px; 
+								margin-right: 24px; 
+								position: relative;
+							"
+						>
+							<i class="fa fa-bars fa-lg"><span style="top: -1px; position: relative;"> Menu</span></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<ul ng-show="showMenu" 
+		class="list-group visible-md-inline visible-sm-inline visible-xs-inline"
+		style="top: 18px; position: relative;"
+	>
+		<li style="background-color: grey">
+			<span>&nbsp;</span>
+		</li>
+		<li class="list-group-item" ng-repeat="league in leagues" track by $index>
+			<span class="managementLink" ng-click="showChampionship(league.id)">View {{league.league}} Ticket Reservation Fees</span><br/>
+		</li>
+		<li class="list-group-item">
+			<span class="managementLink" ng-click="about()">About Us</span><br/>
+		</li>
+		<li class="list-group-item">
+			<span class="managementLink" ng-click="contact()">Contact Us</span><br/>
+		</li>
+		<li class="list-group-item">
+			<span class="managementLink" ng-click="faq()">FAQ</span><br/>
+		</li>
+		<li class="list-group-item">
+			<a 
+				style="cursor: pointer; color: #007581;" 
+				href="/app/" ng-click="menuClicked(false)"
+			>Home</a>
+		</li>
+		<li class="list-group-item">
+			<span class="managementLink" ng-click="welcome()">How it Works</span><br/>
+		</li>
+		<li class="list-group-item">
+			<a 
+				ng-show="!accessAccount" 
+				style="cursor: pointer; color: #007581;"
+				ng-click="logIn(); menuClicked(false)"
+			>My Account</a>
+			<a 
+				ng-show="accessAccount" 
+				style="cursor: pointer; color: #007581;" 
+				href="/app/account/" ng-click="menuClicked(false)"
+			>My Account</a>
+		</li>
+		<li class="list-group-item">
+			<span class="managementLink" ng-click="disclosure()">Legal Disclosure</span><br/>
+		</li>
+		<li class="list-group-item">
+			<span class="managementLink" ng-click="story()">Our Story</span><br/>
+		</li>
+		<li class="list-group-item">
+			<span class="managementLink" ng-click="tos()">Privacy Policy</span><br/>
+		</li>
+		<li class="list-group-item">
+			<span class="managementLink" ng-click="tos()">Terms</span><br/>
+		</li>
+		<li class="list-group-item" ng-show="!accessAccount">
+			<span class="managementLink" ng-click="logIn()">Log In</span><br/>
+		</li>
+		<li class="list-group-item" ng-show="accessAccount">
+			<span class="managementLink" ng-click="logOut()">Log Out</span><br/>
+		</li>
+	</ul>
+	<div id="tt-mainSm" ng-view>
+	</div>
 </div>
 
 <!-- Hack for ensuring event-based services are instantiated -->
