@@ -339,8 +339,8 @@ td {
 
 .contentGreyBgSm {
 	top: 24px;
-	left: 5%;
-	width: 90%;
+	left: 2%;
+	width: 96%;
 	padding-bottom: 12px;
 	border: 1px solid black;
 	border-radius: 12px;
@@ -367,6 +367,17 @@ td {
 	min-height: 80px;
 	max-height: 420px;
 	margin-left: 4px;
+	padding-bottom: 12px;
+	border: 1px solid black;
+	border-radius: 12px;
+	background: rgba(54, 25, 25, .5);
+	position: relative;
+}
+
+.championshipContentGreyBgSm {
+	top: 24px;
+	left: 2%;
+	width: 96%;
 	padding-bottom: 12px;
 	border: 1px solid black;
 	border-radius: 12px;
@@ -675,6 +686,11 @@ td {
 .homeWidgetPoolHeading {
 	font-size: 18px;
 	color: #FFFFFF;
+}
+
+.homeWidgetPoolHeadingYellow {
+	font-size: 18px;
+	color: yellow!important;
 }
 
 .homeWidgetReservationName {

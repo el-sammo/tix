@@ -44,6 +44,10 @@
 			$scope.entityShow = id;
 		}
 
+		$scope.showPool = function(id) {
+			$scope.poolShow = id;
+		}
+
 		$scope.poolData = [];
 
 //		function refreshData() {
@@ -102,6 +106,10 @@
 	
 								var getCostByPEPromise = reservationMgmt.getCostByPE(poolId +'-p&e-'+ entity.entityId +'-p&e-'+ entity.expectedOdds +'-p&e-'+ eeCount);
 								getCostByPEPromise.then(function(entityData) {
+
+									if($scope.entityShow === entityData.entityId) {
+										$scope.poolShow = poolId;
+									}
 	
 									entityData.doubleCost = (entityData.nextCost * 2.02).toFixed(2);
 									entityData.doubleCostInt = $scope.makeInt(entityData.doubleCost);
@@ -139,6 +147,7 @@
 							});
 
 							$scope.poolData.push(thisPoolData);
+							$scope.poolShow = $scope.poolData[0].id;
 
 						}
 

@@ -132,12 +132,8 @@
 
 					completeData.push(championshipHotReservationsData);
 
-console.log('completeData:');
-console.log(completeData);
-
 					$scope.championshipData = completeData;
 					$scope.tabShow = completeData[0].id;
-					$scope.teamShow = completeData[0].id;
 				});
 			});
 
