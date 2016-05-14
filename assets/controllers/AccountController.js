@@ -12,14 +12,20 @@
 	controller.$inject = [
 		'$scope', '$http', 'messenger', '$rootScope',
 		'$window', 'payMethodMgmt', 'layoutMgmt', 'customerMgmt',
-		'accountMgmt', 'reservationMgmt'
+		'accountMgmt', 'reservationMgmt', 'deviceMgr'
 	];
 
 	function controller(
 		$scope, $http, messenger, $rootScope,
 		$window, payMethodMgmt, layoutMgmt, customerMgmt,
-		accountMgmt, reservationMgmt
+		accountMgmt, reservationMgmt, deviceMgr
 	) {
+
+		if(deviceMgr.isBigScreen()) {
+			$scope.bigScreen = true;
+		} else {
+			$scope.bigScreen = false;
+		}
 
 		$scope.addPM = payMethodMgmt.modals.add;
 		$scope.removePM = payMethodMgmt.modals.remove;

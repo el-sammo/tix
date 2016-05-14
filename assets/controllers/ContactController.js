@@ -9,10 +9,18 @@
 	app.controller('ContactController', controller);
 	
 	controller.$inject = [
-		'$scope', '$http', '$rootScope'
+		'$scope', '$http', '$rootScope', 'deviceMgr'
 	];
 
-	function controller($scope, $http, $rootScope) {
+	function controller(
+		$scope, $http, $rootScope, deviceMgr
+	) {
+
+		if(deviceMgr.isBigScreen()) {
+			$scope.bigScreen = true;
+		} else {
+			$scope.bigScreen = false;
+		}
 
 	}
 
