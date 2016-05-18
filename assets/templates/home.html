@@ -1,13 +1,5 @@
 <div class="col-md-12" ng-show="bigScreen">
 
-	<!--
-	<div tour placement="top" template-url="/templates/tour-example.html">
-		<div tour-step>
-			Test
-		</div>
-	</div>
-	-->
-
 	<div class="row" id="homeMain">
 		<div 
 			class="col-md-6 col-md-offset-3 contentGreyBg"
@@ -28,6 +20,36 @@
 							>
 								{{championship.league}}
 							</span>
+						</div>
+						<div 
+							ng-show="!tourStarted && !neverTour && tourStep == 3"
+							class="samTour002"
+						>
+							<div class="samTourHead">
+								<span class="samTourHeading">
+									You Found Us!
+								</span>
+							</div>
+							<br/>
+							<div class="samTourBody">
+								<p class="samTourContent">
+									Now allow us to show you how you can watch
+									your favorite sports teams compete in the
+									championship events!
+								</p>
+							</div>
+							<br/>
+							<div class="samTourNav">
+								<button type="button" class="btn btn-primary btn-xs pull-left" ng-click="tourDown()">
+									<i class="fa fa-reply"></i> &nbsp; Previous
+								</button>
+								<button type="button" class="btn btn-primary btn-xs pull-left" ng-click="tourUp()">
+									<i class="fa fa-mail-forward"></i> &nbsp; Next
+								</button>
+								<button type="button" class="btn btn-danger btn-xs pull-right" ng-click="tourEnd()">
+									<i class="fa fa-times"></i> &nbsp; Exit
+								</button>
+							</div>
 						</div>
 					</div>
 					<br/>
@@ -94,6 +116,36 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div 
+				ng-show="!tourStarted && !neverTour && tourStep == 2"
+				class="samTour001"
+			>
+				<div class="samTourHead">
+					<span class="samTourHeading">
+						You Found Us!
+					</span>
+				</div>
+				<br/>
+				<div class="samTourBody">
+					<p class="samTourContent">
+						Now allow us to show you how you can watch
+						your favorite sports teams compete in the
+						championship events!
+					</p>
+				</div>
+				<br/>
+				<div class="samTourNav">
+					<button type="button" class="btn btn-primary btn-xs pull-left" ng-click="tourDown()" ng-disabled="true">
+						<i class="fa fa-reply"></i> &nbsp; Previous
+					</button>
+					<button type="button" class="btn btn-primary btn-xs pull-left" ng-click="tourUp()">
+						<i class="fa fa-mail-forward"></i> &nbsp; Next
+					</button>
+					<button type="button" class="btn btn-danger btn-xs pull-right" ng-click="tourEnd()">
+						<i class="fa fa-times"></i> &nbsp; Exit
+					</button>
 				</div>
 			</div>
 		</div>

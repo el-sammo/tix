@@ -154,28 +154,21 @@
 			$window.location.href = location.origin + "/app/championship/" + id;
 		}
 
-		/*
-		// Instance the tour
-		var tour = new Tour({
-			steps: [
-				{
-				element: '#'+$scope.tabShow,
-				title: "Step 1",
-				content: "Step One"
-				},
-				{
-				element: '#'+$scope.tabShow,
-				title: "Step 2",
-				content: "Step Two"
-				}
-		]});
+		$scope.tourStarted = false;
+		$scope.tourStep = 2;
+		$scope.neverTour = false;
 
-		// Initialize the tour
-		tour.init();
+		$scope.tourUp = function() {
+			$scope.tourStep ++;
+		}
 
-		// Start the tour
-		tour.start();
-		*/
+		$scope.tourDown = function() {
+			$scope.tourStep --;
+		}
+
+		$scope.tourEnd = function() {
+			$scope.neverTour = true;
+		}
 
 	}
 
