@@ -1,5 +1,6 @@
 <div class="col-md-12" ng-show="bigScreen">
-
+	<div id="darkness" class="darkness">
+	</div>
 	<div class="row" id="homeMain">
 		<div 
 			class="col-md-6 col-md-offset-3 contentGreyBg"
@@ -7,7 +8,56 @@
 		>
 			<div class="row">
 				<div class="col-md-10 col-md-offset-1">
-					<div class="row">
+					<div 
+						class="row" 
+						style="z-index: 1045;"
+						ng-show="tourStep == 3"
+					>
+						<div 
+							class="col-md-3 {{championship.sportTab}}" 
+							style="z-index: 1045;"
+							id="{{championship.id}}" 
+							ng-repeat="championship in championshipData" 
+							track by $index
+						>
+							<span 
+								class="sportTabHeading reservationYellow" 
+								style="z-index: 1045;"
+								ng-click="showTab(championship.id)"
+							>
+								{{championship.league}}
+							</span>
+						</div>
+						<div 
+							ng-show="tourStep == 3"
+							class="samTour003"
+						>
+							<div class="samTourHead">
+								<span class="samTourHeading">
+									Choose Your League
+								</span>
+							</div>
+							<br/>
+							<div class="samTourBody">
+								<p class="samTourContent">
+									Want to watch your favorite football team
+									play in the Super Bowl? Maybe the World Series
+									is your thing? Start here by selecting the
+									championship event!
+								</p>
+							</div>
+							<br/>
+							<div class="samTourNav">
+								<button type="button" class="btn btn-primary btn-xs pull-left" ng-click="tourDown()">
+									<i class="fa fa-reply"></i> &nbsp; Previous
+								</button>
+								<button type="button" class="btn btn-primary btn-xs pull-right" ng-click="tourUp()">
+									<i class="fa fa-mail-forward"></i> &nbsp; Next
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="row" ng-show="tourStep != 3">
 						<div 
 							class="col-md-3 {{championship.sportTab}}" 
 							id="{{championship.id}}" 
@@ -22,20 +72,21 @@
 							</span>
 						</div>
 						<div 
-							ng-show="!tourStarted && !neverTour && tourStep == 3"
-							class="samTour002"
+							ng-show="tourStep == 3"
+							class="samTour003"
 						>
 							<div class="samTourHead">
 								<span class="samTourHeading">
-									You Found Us!
+									Choose Your League
 								</span>
 							</div>
 							<br/>
 							<div class="samTourBody">
 								<p class="samTourContent">
-									Now allow us to show you how you can watch
-									your favorite sports teams compete in the
-									championship events!
+									Want to watch your favorite football team
+									play in the Super Bowl? Maybe the World Series
+									is your thing? Start here by selecting the
+									championship event!
 								</p>
 							</div>
 							<br/>
@@ -43,11 +94,8 @@
 								<button type="button" class="btn btn-primary btn-xs pull-left" ng-click="tourDown()">
 									<i class="fa fa-reply"></i> &nbsp; Previous
 								</button>
-								<button type="button" class="btn btn-primary btn-xs pull-left" ng-click="tourUp()">
+								<button type="button" class="btn btn-primary btn-xs pull-right" ng-click="tourUp()">
 									<i class="fa fa-mail-forward"></i> &nbsp; Next
-								</button>
-								<button type="button" class="btn btn-danger btn-xs pull-right" ng-click="tourEnd()">
-									<i class="fa fa-times"></i> &nbsp; Exit
 								</button>
 							</div>
 						</div>
@@ -66,8 +114,30 @@
 									class="col-md-6" 
 									ng-repeat="pool in championship.pools"
 								>
-									<div class="row">
-										<div class="col-md-12">
+									<div 
+										class="row"
+										style="z-index: 1045;"
+										ng-show="tourStep == 4"
+									>
+										<div 
+											class="col-md-12"
+											style="z-index: 1045;"
+										>
+											<span 
+												class="homeWidgetPoolHeading"
+												style="z-index: 1045;"
+											>
+												{{pool.name}}
+											</span>
+										</div>
+									</div>
+									<div 
+										class="row"
+										ng-show="tourStep != 4"
+									>
+										<div 
+											class="col-md-12"
+										>
 											<span class="homeWidgetPoolHeading">
 												{{pool.name}}
 											</span>
@@ -76,8 +146,41 @@
 									<br/>
 									<div 
 										class="row" 
+										style="z-index: 1045;"
 										id="reservation.id"
 										ng-repeat="reservation in pool.hotReservations"
+										ng-show="tourStep == 4"
+									>
+										<div 
+											class="col-md-8"
+											style="z-index: 1045;"
+										>
+											<span 
+												class="homeWidgetReservationName reservationYellow" 
+												style="cursor: pointer; z-index: 1045;"
+												ng-click="showReservation(championship.id+'-'+reservation.id)"
+											>
+												{{reservation.name}} {{reservation.mascot}}
+											</span>
+										</div>
+										<div 
+											class="col-md-4" 
+											style="text-align: right; z-index: 1045;" 
+										>
+											<span 
+												class="homeWidgetReservationCost reservationYellow"
+												style="cursor: pointer; z-index: 1045;"
+												ng-click="showReservation(championship.id+'-'+reservation.id)"
+											>
+												${{reservation.cost}}
+											</span>
+										</div>
+									</div>
+									<div 
+										class="row" 
+										id="reservation.id"
+										ng-repeat="reservation in pool.hotReservations"
+										ng-show="tourStep != 4"
 									>
 										<div class="col-md-8">
 											<span 
@@ -105,6 +208,45 @@
 							<br/>
 							<div class="row">
 								<div class="col-md-12" style="text-align: center;">
+									<div 
+										ng-show="tourStep == 4"
+										class="samTour004"
+									>
+										<div class="samTourHead">
+											<span class="samTourHeading">
+												Current Inexpensive Reservations
+											</span>
+										</div>
+										<br/>
+										<div class="samTourBody">
+											<p class="samTourContent">
+												Here you can see a handful of the least 
+												expensive reservations for the championship 
+												event that you chose. They are organized by 
+												league/conference, starting with the least 
+												expensive on top.
+											</p>
+										</div>
+										<br/>
+										<div class="samTourNav">
+											<button 
+												type="button" 
+												class="btn btn-primary btn-xs pull-left"
+												style="top: -22px; position: relative;"
+												ng-click="tourDown()"
+											>
+												<i class="fa fa-reply"></i> &nbsp; Previous
+											</button>
+											<button 
+												type="button" 
+												class="btn btn-primary btn-xs pull-right" 
+												style="top: -22px; position: relative;"
+												ng-click="tourUp()"
+											>
+												<i class="fa fa-mail-forward"></i> &nbsp; Next
+											</button>
+										</div>
+									</div>
 									<span 
 										class="homeWidgetPoolHeading reservationYellow" 
 										style="cursor: pointer;"
@@ -119,8 +261,8 @@
 				</div>
 			</div>
 			<div 
-				ng-show="!tourStarted && !neverTour && tourStep == 2"
-				class="samTour001"
+				ng-show="tourStep == 2"
+				class="samTour002"
 			>
 				<div class="samTourHead">
 					<span class="samTourHeading">
@@ -130,21 +272,28 @@
 				<br/>
 				<div class="samTourBody">
 					<p class="samTourContent">
-						Now allow us to show you how you can watch
-						your favorite sports teams compete in the
-						championship events!
+						Now we'll show you how to secure tickets to the 
+						Super Bowl, World Series, Stanley Cup Finals, 
+						NBA Finals, NCAA Basketball National Championship 
+						and NCAA Football National Championship!
 					</p>
 				</div>
 				<br/>
 				<div class="samTourNav">
-					<button type="button" class="btn btn-primary btn-xs pull-left" ng-click="tourDown()" ng-disabled="true">
-						<i class="fa fa-reply"></i> &nbsp; Previous
+					<button 
+						type="button" 
+						class="btn btn-danger btn-xs pull-left" 
+						ng-click="tourEnd()"
+						style="font-size: 12px!important; font-weight: 500!important;"
+					>
+						<i class="fa fa-times"></i> &nbsp; I'm No Rookie - I Got This!
 					</button>
-					<button type="button" class="btn btn-primary btn-xs pull-left" ng-click="tourUp()">
-						<i class="fa fa-mail-forward"></i> &nbsp; Next
-					</button>
-					<button type="button" class="btn btn-danger btn-xs pull-right" ng-click="tourEnd()">
-						<i class="fa fa-times"></i> &nbsp; Exit
+					<button 
+						type="button" 
+						class="btn btn-primary btn-xs pull-right" 
+						ng-click="tourUp()"
+					>
+						<i class="fa fa-mail-forward"></i> &nbsp; Cool - Let's Go!
 					</button>
 				</div>
 			</div>

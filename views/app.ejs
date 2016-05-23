@@ -8,7 +8,7 @@
 <div id="tt-main-container" ng-cloak ng-controller="LayoutController" ng-show="bigScreen">
   <div class="{{bgImg}}">
   	<div id="tt-menu">
-  		<div class="menuDisplay">
+  		<div id="menuDisplay" class="menuDisplay">
 				<span class="footerLink reservationYellow" ng-click="showChampionship(league.id)" ng-repeat="league in leagues" track by $index>{{league.league}}</span>
 				<span ng-show="accessAccount" class="footerLink reservationYellow" ng-click="showAccount()">My Account</span>
 				<span ng-show='showLogout' class="footerLink reservationYellow" ng-click="logOut()">Log Out</span>

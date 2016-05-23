@@ -349,7 +349,7 @@ td {
 	color: #ffffff;
 }
 
-.samTour001 {
+.samTour002 {
 	padding: 4px;
 	font-size: 24px; 
 	font-weight: 700; 
@@ -361,9 +361,25 @@ td {
 	border: 1px solid grey;
 	background: rgba(54, 25, 25, .9);
 	position: absolute;
+	z-index: 1050;
 }
 
-.samTour002 {
+.samTour003 {
+	padding: 4px;
+	font-size: 24px; 
+	font-weight: 700; 
+	color: #ffffff; 
+	top: 26px; 
+	left: 0px; 
+	width: 400px;
+	box-shadow: 0px 5px 10px #000000;
+	border: 1px solid grey;
+	background: rgba(54, 25, 25, .9);
+	position: absolute;
+	z-index: 1050;
+}
+
+.samTour004 {
 	padding: 4px;
 	font-size: 24px; 
 	font-weight: 700; 
@@ -374,7 +390,51 @@ td {
 	box-shadow: 0px 5px 10px #000000;
 	border: 1px solid grey;
 	background: rgba(54, 25, 25, .9);
+	position: relative;
+	z-index: 1050;
+}
+
+.samTour005 {
+	padding: 4px;
+	font-size: 24px; 
+	font-weight: 700; 
+	color: #ffffff; 
+	top: 20%; 
+	left: 65%; 
+	width: 400px;
+	box-shadow: 0px 5px 10px #000000;
+	border: 1px solid grey;
+	background: rgba(54, 25, 25, .9);
 	position: absolute;
+	z-index: 1050;
+}
+
+.samTour006 {
+	padding: 4px;
+	font-size: 24px; 
+	font-weight: 700; 
+	color: #ffffff; 
+	top: 20%; 
+	left: 35%; 
+	width: 400px;
+	box-shadow: 0px 5px 10px #000000;
+	border: 1px solid grey;
+	background: rgba(54, 25, 25, .9);
+	position: absolute;
+	z-index: 1050;
+}
+
+.samTourNav {
+}
+
+.darkness {
+	top: 0px;
+	left: 0px;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(54, 25, 25, .9);
+	position: absolute;
+	z-index: 1040;
 }
 
 .contentGreyBg {

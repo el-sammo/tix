@@ -154,12 +154,11 @@
 			$window.location.href = location.origin + "/app/championship/" + id;
 		}
 
-		$scope.tourStarted = false;
 		$scope.tourStep = 2;
-		$scope.neverTour = false;
 
 		$scope.tourUp = function() {
 			$scope.tourStep ++;
+			$scope.checkStep();
 		}
 
 		$scope.tourDown = function() {
@@ -167,7 +166,23 @@
 		}
 
 		$scope.tourEnd = function() {
-			$scope.neverTour = true;
+			$scope.tourStep = 0;
+			$scope.lightness();
+		}
+
+		$scope.darkness = true;
+		$('#menuDisplay').css('display','none');
+
+		$scope.lightness = function() {
+			$scope.darkness = false;
+			$('#menuDisplay').css('display','initial');
+			$('#darkness').css('display','none');
+		}
+
+		$scope.checkStep = function() {
+			if($scope.tourStep > 4) {
+				$window.location.href = location.origin + "/app/championship/" + $scope.tabShow+'-ts';
+			}
 		}
 
 	}

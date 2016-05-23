@@ -42,6 +42,9 @@
 
 		$scope.showEntity = function(id) {
 			$scope.entityShow = id;
+			if($scope.tourStep == 5) {
+				$scope.tourStep = 6;
+			}
 		}
 
 		$scope.showPool = function(id) {
@@ -60,9 +63,17 @@
 				if($routeParams.id.length > 26) {
 					var rpPcs = $routeParams.id.split('-');
 					championshipId = rpPcs[0];
-					$scope.entityShow = rpPcs[1];
+					if(rpPcs[1] === 'ts') {
+						$scope.tourStep = 5;
+					} else {
+						$scope.entityShow = rpPcs[1];
+						$('#menuDisplay').css('display','initial');
+						$('#darkness').css('display','none');
+					}
 				} else {
 					championshipId = $routeParams.id;
+					$('#menuDisplay').css('display','initial');
+					$('#darkness').css('display','none');
 				}
 
 				var getChampionshipPromise = championshipMgmt.getChampionship(championshipId);
@@ -163,6 +174,28 @@
 				var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
 				return result * sortOrder;
 			}
+		}
+
+		$scope.tourUp = function() {
+			$scope.tourStep ++;
+			$scope.checkStep();
+		}
+
+		$scope.tourDown = function() {
+			$scope.tourStep --;
+		}
+
+		$scope.tourEnd = function() {
+			$scope.lightness();
+		}
+
+		$scope.darkness = true;
+		$('#menuDisplay').css('display','none');
+
+		$scope.lightness = function() {
+			$scope.darkness = false;
+			$('#menuDisplay').css('display','initial');
+			$('#darkness').css('display','none');
 		}
 
 	}
